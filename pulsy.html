@@ -1,39 +1,119 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Pulsy Test</title>
-  </head>
+<head>
+  <title>Pulsy Test</title>
+  <style>
+    #anchor-target {
+      background: blue;
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      left: 100px;
+      top: 100px;
+    }
+  </style>
+</head>
 
-  <body>
-    <div id="test"></div>
-    <script src="../bower_components/react/JSXTransformer.js"></script>
-    <script src="../bower_components/react/react.js"></script>
-    <script type="text/jsx">
-      var style = {
-        box: {
-          width: '50px',
-          height: '50px',
-          background: 'red'
-        }
-      }
-      var AnchorElement = React.createClass({
-        render: function() {
-          return (
-            <div style={style.box}></div>
-          );
-        }
-      });
-      var PulsyApp = React.createClass({
-        render: function() {
-          return (
-            <div>
-              Hello Pulsy
-              <AnchorElement />
-            </div>
-          );
-        }
-      });
-      React.render(<PulsyApp />, document.getElementById("test"));
-    </script>
-  </body>
+<body style="background: #333;">
+  <div id="test"></div>
+  <div class="anchor"></div>
+  <div class="anchor"></div>
+  <div class="anchor"></div>
+
+  <script src="../bower_components/react/JSXTransformer.js"></script>
+  <script src="../bower_components/react/react.js"></script>
+
+  <script type="text/jsx">
+
+  var style = {
+    anchorContainer: {
+      position: 'relative',
+      margin: '200px auto',
+      textAlign: 'center',
+      width: '500px',
+      padding: '20px',
+      border: '1px solid #ddd',
+      borderRadius: '5px',
+    },
+    box: {
+      position: 'relative',
+      display: 'inline-block',
+      margin: '0 15px',
+      padding: '10px',
+      width: '50px',
+      height: '50px',
+      background: 'red',
+    },
+    tooltip: {
+      width: '100px',
+      height: '40px',
+      background: '#eee',
+      position: 'absolute',
+      top: '-75px',
+    }
+  }
+
+  var anchorSet = document.getElementsByClassName('anchor');
+  var anchorLength = anchorSet.length;
+  for (i=0;i<anchorLength;i++) {
+    console.log(anchorSet[i]);
+  }
+  console.log(anchorLength);
+
+  var Tooltip = React.createClass({
+    render: function() {
+      return (
+        <div
+        style={style.tooltip}>
+          Some tooltip content
+        </div>
+      );
+    }
+  });
+
+  var AnchorElement = React.createClass({
+    getInitialState: function() {
+      return {
+        toggleTooltip: false
+      };
+    },
+    onClick: function() {
+      this.setState({toggleTooltip: !this.state.toggleTooltip});
+    },
+    render: function() {
+      return (
+        <div
+        style={style.box}
+        onClick={this.onClick}>
+          Some box content
+          {this.state.toggleTooltip ? <Tooltip /> : null}
+        </div>
+      );
+    }
+  });
+
+  var PulsyDot = React.createClass({
+    render: function() {
+      return (
+        <div style={style.dot}></div>
+      );
+    }
+  });
+
+  var PulsyApp = React.createClass({
+    render: function() {
+      return (
+        <div style={style.anchorContainer}>
+          <AnchorElement />
+          <AnchorElement />
+          <AnchorElement />
+        </div>
+      );
+    }
+  });
+
+  React.render(<PulsyApp />, document.getElementById("test"));
+
+  </script>
+</body>
 <html>
