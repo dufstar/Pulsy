@@ -3,22 +3,31 @@
 <head>
   <title>Pulsy Test</title>
   <style>
-    #anchor-target {
-      background: blue;
-      width: 50px;
-      height: 50px;
+    .user-anchor {
+      background: #f67b45;
+      width: 300px;
+      height: 100px;
+      position: relative;
+      margin: 50px auto 150px;
+      border-radius: 4px;
+    }
+    .wrapper {
+      width: 100%;
+      height: 100%;
       position: absolute;
-      left: 100px;
-      top: 100px;
+      top: 0;
+      left: 0;
+      padding: 50px;
     }
   </style>
 </head>
 
 <body style="background: #333;">
-  <div id="test"></div>
-  <div class="anchor"></div>
-  <div class="anchor"></div>
-  <div class="anchor"></div>
+  <div class="wrapper">
+    <div class="anchor user-anchor"></div>
+    <div class="anchor user-anchor"></div>
+    <div class="anchor user-anchor"></div>
+  </div>
 
   <script src="../bower_components/react/JSXTransformer.js"></script>
   <script src="../bower_components/react/react.js"></script>
@@ -26,52 +35,51 @@
   <script type="text/jsx">
 
   var style = {
-    anchorContainer: {
-      position: 'relative',
-      margin: '200px auto',
-      textAlign: 'center',
-      width: '500px',
-      padding: '20px',
-      border: '1px solid #ddd',
-      borderRadius: '5px',
-    },
-    box: {
-      position: 'relative',
+    pulsyDot: {
+      position: 'absolute',
       display: 'inline-block',
-      margin: '0 15px',
-      padding: '10px',
       width: '50px',
       height: '50px',
-      background: 'red',
+      background: '#4c93ea',
+      borderRadius: '100%',
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%,-50%)',
+      cursor: 'pointer'
     },
-    tooltip: {
+    pulsyTooltip: {
       width: '100px',
       height: '40px',
       background: '#eee',
       position: 'absolute',
-      top: '-75px',
+      top: '-50px',
+      left: '50%',
+      transform: 'translate(-50%,0)',
+      padding: '10px',
+      textAlign: 'center'
     }
   }
+
+  var userNotes = {}
 
   var anchorSet = document.getElementsByClassName('anchor');
   var anchorLength = anchorSet.length;
   for (i=0;i<anchorLength;i++) {
-    console.log(anchorSet[i]);
+    userNotes[i] = 'default tooltip note ' + i;
   }
-  console.log(anchorLength);
 
   var Tooltip = React.createClass({
     render: function() {
       return (
         <div
-        style={style.tooltip}>
-          Some tooltip content
+        style={style.pulsyTooltip}>
+          {this.props.tooltipMsg}
         </div>
       );
     }
   });
 
-  var AnchorElement = React.createClass({
+  var PulsyDot = React.createClass({
     getInitialState: function() {
       return {
         toggleTooltip: false
@@ -83,36 +91,17 @@
     render: function() {
       return (
         <div
-        style={style.box}
+        style={style.pulsyDot}
         onClick={this.onClick}>
-          Some box content
-          {this.state.toggleTooltip ? <Tooltip /> : null}
+          {this.state.toggleTooltip ? <Tooltip tooltipMsg = {userNotes[this.props.anchorNumber]} /> : null}
         </div>
       );
     }
   });
 
-  var PulsyDot = React.createClass({
-    render: function() {
-      return (
-        <div style={style.dot}></div>
-      );
-    }
-  });
-
-  var PulsyApp = React.createClass({
-    render: function() {
-      return (
-        <div style={style.anchorContainer}>
-          <AnchorElement />
-          <AnchorElement />
-          <AnchorElement />
-        </div>
-      );
-    }
-  });
-
-  React.render(<PulsyApp />, document.getElementById("test"));
+  for (i=0;i<anchorLength;i++) {
+    React.render(<PulsyDot anchorNumber = {i}/>, anchorSet[i]);
+  }
 
   </script>
 </body>
