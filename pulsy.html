@@ -118,21 +118,25 @@
       dotNumber: 0,
       tooltipName: "",
       tooltipNote: "",
+      dotClicked: false,
     },
     {
       dotNumber: 0,
       tooltipName: "",
-      tooltipNote: ""
+      tooltipNote: "",
+      dotClicked: false,
     },
     {
       dotNumber: 0,
       tooltipName: "",
-      tooltipNote: ""
+      tooltipNote: "",
+      dotClicked: false,
     },
     {
       dotNumber: null,
       tooltipName: "",
-      tooltipNote: ""
+      tooltipNote: "",
+      dotClicked: false,
     }
   ];
 
@@ -166,14 +170,15 @@
     getInitialState: function() {
       return {
         showTooltip: false,
-        showDot: true
+        dotClicked: dotTooltips[this.props.anchorNumber].dotClicked,
       };
     },
     dotClick: function() {
       this.setState({
         showTooltip: !this.state.showTooltip,
-        showDot: !this.state.showDot
+        dotClicked: !this.state.dotClicked,
       });
+      dotTooltips[this.props.anchorNumber].dotClicked = !this.state.dotClicked;
     },
     tooltipClick: function() {
       this.setState({
@@ -181,7 +186,7 @@
       });
     },
     render: function() {
-      var dot = this.state.showDot ?
+      var dot = !this.state.dotClicked ?
         <div style={style.pulsyDot} onClick={this.dotClick}>
           <div style={style.pulsyFront} className="spinner"></div>
         </div> :
