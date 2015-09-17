@@ -102,12 +102,37 @@
     }
   }
 
-  var userNotes = {}
+  var dotTooltips = [
+    {
+      dotNumber: 0,
+      tooltipName: "",
+      tooltipNote: ""
+    },
+    {
+      dotNumber: 0,
+      tooltipName: "",
+      tooltipNote: ""
+    },
+    {
+      dotNumber: 0,
+      tooltipName: "",
+      tooltipNote: ""
+    },
+    {
+      dotNumber: null,
+      tooltipName: "",
+      tooltipNote: ""
+    }
+  ];
 
+  var userNotes = {};
   var anchorSet = document.getElementsByClassName('anchor');
   var anchorLength = anchorSet.length;
   for (i=0;i<anchorLength;i++) {
-    userNotes[i] = 'default tooltip note ' + i;
+    dotTooltips[i].dotNumber = i;
+    dotTooltips[i].tooltipName = 'Tooltip Name #' + i;
+    dotTooltips[i].tooltipNote = 'Some tooltip note of great significance and utility.';
+    console.log(dotTooltips);
   }
 
   var PulsyTooltip = React.createClass({
