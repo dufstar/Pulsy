@@ -8,8 +8,9 @@
       width: 300px;
       height: 100px;
       position: relative;
-      margin: 50px auto 150px;
+      margin: 50px;
       border-radius: 4px;
+      display: inline-block;
     }
     .wrapper {
       width: 100%;
@@ -24,6 +25,7 @@
 
 <body style="background: #333;">
   <div class="wrapper">
+    <div class="anchor user-anchor"></div>
     <div class="anchor user-anchor"></div>
     <div class="anchor user-anchor"></div>
     <div class="anchor user-anchor"></div>
@@ -45,14 +47,15 @@
       left: '50%',
       top: '50%',
       transform: 'translate(-50%,-50%)',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      zIndex: '9999'
     },
     pulsyTooltip: {
       width: '100px',
       height: '40px',
       background: '#eee',
       position: 'absolute',
-      top: '-50px',
+      top: '-75px',
       left: '50%',
       transform: 'translate(-50%,0)',
       padding: '10px',
@@ -68,11 +71,12 @@
     userNotes[i] = 'default tooltip note ' + i;
   }
 
-  var Tooltip = React.createClass({
+  var PulsyTooltip = React.createClass({
     render: function() {
       return (
         <div
-        style={style.pulsyTooltip}>
+        style={style.pulsyTooltip}
+        onClick={this.props.remove}>
           {this.props.tooltipMsg}
         </div>
       );
@@ -82,18 +86,37 @@
   var PulsyDot = React.createClass({
     getInitialState: function() {
       return {
-        toggleTooltip: false
+        showTooltip: false,
+        showDot: true
       };
     },
-    onClick: function() {
-      this.setState({toggleTooltip: !this.state.toggleTooltip});
+    dotClick: function() {
+      this.setState({
+        showTooltip: !this.state.showTooltip,
+        showDot: !this.state.showDot
+      });
+    },
+    tooltipClick: function() {
+      this.setState({
+        showTooltip: !this.state.showTooltip
+      });
     },
     render: function() {
       return (
-        <div
-        style={style.pulsyDot}
-        onClick={this.onClick}>
-          {this.state.toggleTooltip ? <Tooltip tooltipMsg = {userNotes[this.props.anchorNumber]} /> : null}
+        <div>
+          {this.state.showDot ?
+            <div
+              style={style.pulsyDot}
+              onClick={this.dotClick}>
+            </div>
+          : null}
+
+          {this.state.showTooltip ?
+            <PulsyTooltip
+              tooltipMsg = {userNotes[this.props.anchorNumber]}
+              remove={this.tooltipClick}
+            />
+          : null}
         </div>
       );
     }

@@ -1,1 +1,13 @@
-test note
+Thoughts
+what i would like to do for this most basic version is to identify a marked element in the user's app, and render a dot in thecenter of it.  i can worry about the placement of it later.  i think in many ways what could make this library interesting and maybe valuable is in the customization.  but right now finding the element, rendering the dot, and then showing a tooltip when you click that dot, unmounting that dot when it is clicked, and then enabling you to close the tooltip is all i need to do.  dont complicate something that doesnt need to be conmplicated.  again, what will make this valiable to people at all is in how easily hey can implement it in their own app, and then you can give it your own pizzaz farily easilyonce you have implemented it in a foolproof way.  you can add the ability to allow them to run the otur multiple times, to store where a user is in the tour so that if they log off and come back they keep their spot, potentiall.y  but for now, just implement this i a way that can be repeated easily and just dropped into the app.
+
+Objects
+- anchor element
+- pulsy dot
+- tooltip
+
+Objectives
+- identify multiple anchors via a class given to it
+- give each of those anchors a pulsydot
+- give each of the anchors a unique tooltip that is displayed on click
+- use a data- attribute to identify anchor elements and enable user to customize the notes for those anchor elements
