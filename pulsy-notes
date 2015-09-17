@@ -6,8 +6,13 @@ Objects
 - pulsy dot
 - tooltip
 
-Objectives
+Objectives and to dos
 - identify multiple anchors via a class given to it
 - give each of those anchors a pulsydot
 - give each of the anchors a unique tooltip that is displayed on click
 - use a data- attribute to identify anchor elements and enable user to customize the notes for those anchor elements
+- allow users to customize the dots via an array of dot objects, including a default styling.  then allow them to customize individual dots on top of that default'
+- allow users to create, launch, and modify dots from the command line?
+- give them the option to make the tooltip draggable?
+- allow users to change colors globally with variables
+- convert all CSS to SCSS

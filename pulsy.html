@@ -181,24 +181,20 @@
       });
     },
     render: function() {
+      var dot = this.state.showDot ?
+        <div style={style.pulsyDot} onClick={this.dotClick}>
+          <div style={style.pulsyFront} className="spinner"></div>
+        </div> :
+        null;
+      var tooltip = this.state.showTooltip ?
+        <PulsyTooltip tooltipMsg = {
+            dotTooltips[this.props.anchorNumber].tooltipNote
+          } remove={this.tooltipClick} /> :
+        null
       return (
         <div>
-          {this.state.showDot ?
-            <div
-              style={style.pulsyDot}
-              onClick={this.dotClick}>
-              <div
-                style={style.pulsyFront}
-                className="spinner"></div>
-            </div>
-          : null}
-
-          {this.state.showTooltip ?
-            <PulsyTooltip
-              tooltipMsg = {dotTooltips[this.props.anchorNumber].tooltipNote}
-              remove={this.tooltipClick}
-            />
-          : null}
+          {dot}
+          {tooltip}
         </div>
       );
     }
