@@ -51,17 +51,13 @@
 
 <body style="background: #333;">
   <div class="wrapper">
-    <div class="user-anchor">
-      <div class="anchor"></div>
+    <div class="anchor user-anchor">
     </div>
-    <div class="user-anchor">
-      <div class="anchor"></div>
+    <div class="anchor user-anchor">
     </div>
-    <div class="user-anchor">
-      <div class="anchor"></div>
+    <div class="anchor user-anchor">
     </div>
-    <div class="user-anchor">
-      <div class="anchor"></div>
+    <div class="anchor user-anchor">
     </div>
   </div>
   <div id="pulsy-tour"></div>
@@ -229,10 +225,18 @@
 
   var PulsyDot = React.createClass({
     render: function() {
+      var style = {
+        position: 'absolute',
+        top: this.props.coordinates.top,
+        left: this.props.coordinates.left,
+        width: this.props.coordinates.width,
+        height: this.props.coordinates.height,
+        background: 'blue'
+      }
       return (
-        <div>
+        <div style={style}>
           {this.props.dotNumber}
-          {this.props.dotCoordinates}
+          {this.props.coordinates.top}
         </div>
       );
     }
@@ -243,7 +247,7 @@
       var pulsyLength = this.props.anchors;
       var dots = [];
       for (i=0;i<pulsyLength;i++) {
-        dots.push(<PulsyDot dotNumber={i} dotCoordinates={this.props.pulsyArray[i].coordinates.top} />);
+        dots.push(<PulsyDot dotNumber={i} coordinates={this.props.pulsyArray[i].coordinates} />);
       }
       return (
         <div>
@@ -254,7 +258,11 @@
   });
 
   // RENDER ROOT COMPONENT IN DOM
-  React.render(<PulsyTour anchors={pulsyLength} pulsyArray={pulsyArray} />, document.getElementById('pulsy-tour'));
+  React.render(<PulsyTour
+                  anchors={pulsyLength}
+                  pulsyArray={pulsyArray}
+                />, document.getElementById('pulsy-tour')
+              );
 
   </script>
 
