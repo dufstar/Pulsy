@@ -238,7 +238,7 @@
     }
   });
 
-  var PulsyApp = React.createClass({
+  var PulsyTour = React.createClass({
     render: function() {
       var pulsyLength = this.props.anchors;
       var dots = [];
@@ -254,7 +254,7 @@
   });
 
   // RENDER ROOT COMPONENT IN DOM
-  React.render(<PulsyApp anchors={pulsyLength} pulsyArray={pulsyArray} />, document.getElementById('pulsy-tour'));
+  React.render(<PulsyTour anchors={pulsyLength} pulsyArray={pulsyArray} />, document.getElementById('pulsy-tour'));
 
   </script>
 
