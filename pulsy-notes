@@ -1,18 +1,38 @@
 Thoughts
 what i would like to do for this most basic version is to identify a marked element in the user's app, and render a dot in thecenter of it.  i can worry about the placement of it later.  i think in many ways what could make this library interesting and maybe valuable is in the customization.  but right now finding the element, rendering the dot, and then showing a tooltip when you click that dot, unmounting that dot when it is clicked, and then enabling you to close the tooltip is all i need to do.  dont complicate something that doesnt need to be conmplicated.  again, what will make this valiable to people at all is in how easily hey can implement it in their own app, and then you can give it your own pizzaz farily easilyonce you have implemented it in a foolproof way.  you can add the ability to allow them to run the otur multiple times, to store where a user is in the tour so that if they log off and come back they keep their spot, potentiall.y  but for now, just implement this i a way that can be repeated easily and just dropped into the app.
 
-Objects
-- anchor element
-- pulsy dot
-- tooltip
 
-Objectives and to dos
+
+COMPLETED
 - identify multiple anchors via a class given to it
 - give each of those anchors a pulsydot
 - give each of the anchors a unique tooltip that is displayed on click
-- use a data- attribute to identify anchor elements and enable user to customize the notes for those anchor elements
-- allow users to customize the dots via an array of dot objects, including a default styling.  then allow them to customize individual dots on top of that default'
-- allow users to create, launch, and modify dots from the command line?
-- give them the option to make the tooltip draggable?
-- allow users to change colors globally with variables
+- move dots into their own divs so they don't replace anything
+
+REMAINING
+- render pulsydots to single div in body instead of within each container, and apply them to xy coordinates
+- use local storage to remember clicked state of dots
+- use a data-attributes to create custom notes
+- button to reset all dots to unclicked
+
+LATER
 - convert all CSS to SCSS
+- customize look and animation of dots and tooltips
+- allow users to create, launch, and modify dots from the command line
+- allow users to change colors globally with variables
+- option to make the tooltip draggable
+- option to store whether use has completed tour in database
+
+
+describe the problem
+load the page
+identify which elements have the pulsy-anchor
+loop through those to know how many pulsy dots to create
+the user will have created a div in their body with a special id
+ill place the pulsy app in that div
+when i looped through the anchor elements, ill have grabbed their x and y coordinates and passed them to the pulsydots via props
+the pulsydots will only be shown if the dotclicked state is set to false, which will be informed by localstorage
+neither pulsydot nor its nested tooltip should be affected by the anchor elements css because it is in the special div
+determine whether anchor element has position fixed - update pusly dot style accordingly
+determine whether pulsy dot is near an edge - default tooltip to left or bottom accordingly
+listen for window resize and update coordinates of both dot and tooltip to account for any changes to position of anchor element
