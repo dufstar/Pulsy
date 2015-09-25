@@ -1,0 +1,118 @@
+
+
+<html>
+<head>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="css/demo.css" />
+	<link rel="stylesheet" type="text/css" href="css/component.css" />
+	<link rel="stylesheet" type="text/css" href="css/test.css" />
+</head>
+
+<body>
+	<div class="content-avatar">
+    <img class="anchor" src="img/keira.jpg">
+  </div>
+	<div class="content-nav">
+		<div class="launch-button anchor"><span>Launch</span></div>
+		<div class="cancel-button"><div class="unmark">+</div></div>
+		<div class="complete progress-button">
+			<button><span>Mark Complete</span></button>
+			<svg class="progress-circle" width="56" height="56"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
+			<svg class="checkmark" width=56 height=56><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
+			<svg class="cross" width=58 height=58><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
+			<div class="privacy-container">
+				<div class="privacy-back"></div>
+				<div class="privacy-dot"></div>
+				<div class="privacy-button">Mark<br>Private</div>
+			</div>
+		</div>
+		<div class="tooltip">Settings<br>By default others will be able to see that you have completed this.  Click here to mark this private.<br>Got it.<br>Don't show this again.</div>
+		<div class="action-buttons">
+			<i class="fa fa-heart" data-label="Endorse"></i>
+			<i class="fa fa-star" data-label="Save"></i>
+			<i class="fa fa-share" data-label="Share"></i>
+			<div class="action-labels">
+				<div class="label endorse-label anchor">Endorse</div>
+				<div class="label save-label">Save</div>
+				<div class="label share-label">Share</div>
+			</div>
+		</div>
+		<div class="share-overlay nav-share-overlay">
+			<i class="fa fa-search"></i>
+			<input class="share-search" placeholder="Search or select a learner to share">
+			<div class="close-share">+</div>
+		</div>
+		<div class="share-filter">
+			<div class="share-filter-option">Learners</div>
+			<div class="share-filter-option">Gatherings</div>
+		</div>
+	</div>
+
+	<div class="content-body">
+		<div class="content-information">
+			<img class="basic-info" src="img/basic-info.png">
+			<div class="note-container">
+				<div class="note-body">
+					<div class="note-avatar">
+						<img src="img/keira.jpg">
+					</div>
+					<span>Pete Tong<b>Mar 18</b></span>
+					<blockquote>
+						Chickweed okra pea winter purslane coriander yarrow sweet pepper radish garlic brussels sprout groundnut summer purslane earthnut pea tomato spring onion azuki bean gourd.
+					</blockquote>
+				</div>
+			</div>
+		</div>
+		<div class="nav-container">
+			<div class="content-body-nav">
+				<div class="body-nav-item selected">Overview</div>
+				<div class="body-nav-item">Discuss</div>
+				<div class="body-nav-item">Learners</div>
+				<div class="body-nav-item">Similar</div>
+			</div>
+		</div>
+		<div class="screenshots">
+			<img src="img/content-vid.png">
+			<img src="img/discussion.png">
+		</div>
+		<div class="share-overlay body-share-overlay">
+			<div class="share-user-container">
+
+				<div class="share-user">
+					<div class="share-avatar">
+						<img src="img/orlando.jpg">
+					</div>
+					<div class="share-name">
+						Orlando Bloom
+						<span>User Interface Designer</span>
+					</div>
+					<i class="fa fa-check"></i>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="share-footer">
+		<div class="share-note">Explain why you're sharing (optional)</div>
+		<div class="share-button">Share (4)</div>
+		<div class="share-summary">Sharing to 3 learners, 1 gathering</div>
+	</div>
+
+  <div id="pulsy-tour"></div>
+
+	<script src="js/modernizr.custom.js"></script>
+	<script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+ 	<script src="js/uiProgressButton.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/classie.js"></script>
+	<script src="js/uiProgressButton.js"></script>
+	<script src="js/test.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+  <script type="text/jsx" src="src/pulsy.js"></script>
+
+
+</body>
+</html>

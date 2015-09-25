@@ -14,6 +14,7 @@ REMAINING
 - use local storage to remember clicked state of dots
 - use a data-attributes to create custom notes
 - button to reset all dots to unclicked
+- move text/jsx to its own js file
 
 LATER
 - convert all CSS to SCSS
@@ -25,14 +26,19 @@ LATER
 
 
 describe the problem
-load the page
-identify which elements have the pulsy-anchor
+identify which elements have the pulsy-target
 loop through those to know how many pulsy dots to create
 the user will have created a div in their body with a special id
 ill place the pulsy app in that div
-when i looped through the anchor elements, ill have grabbed their x and y coordinates and passed them to the pulsydots via props
+when i loop through the anchor elements, ill grab their x and y coordinates and passed them to the pulsydots via props
+center the dots on the pulsy-target
+on window resize rerender pulsyapp and change coordinates of the pulsydots
 the pulsydots will only be shown if the dotclicked state is set to false, which will be informed by localstorage
 neither pulsydot nor its nested tooltip should be affected by the anchor elements css because it is in the special div
 determine whether anchor element has position fixed - update pusly dot style accordingly
 determine whether pulsy dot is near an edge - default tooltip to left or bottom accordingly
 listen for window resize and update coordinates of both dot and tooltip to account for any changes to position of anchor element
+
+options
+- toggle on optional helper border to show you how the dot is being positioned?
+- make it clear to them how to customize the css of any pulsydot
