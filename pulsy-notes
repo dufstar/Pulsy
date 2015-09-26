@@ -17,7 +17,6 @@ REMAINING
 - move text/jsx to its own js file
 
 LATER
-- convert all CSS to SCSS
 - customize look and animation of dots and tooltips
 - allow users to create, launch, and modify dots from the command line
 - allow users to change colors globally with variables
@@ -25,7 +24,28 @@ LATER
 - option to store whether use has completed tour in database
 
 
-describe the problem
+Components
+- PulsyTour
+- PulsyDot
+- PulsyTooltip
+
+Process
+- user adds pt-anchor class to all target elements
+- 
+
+COMPLETED
+
+NEXT
+- put dot in center of pt-anchor
+- liseten for window resize
+- add in click events
+- add states to local storage
+
+LATER
+- convert to ES6
+- convert css to scss
+
+
 identify which elements have the pulsy-target
 loop through those to know how many pulsy dots to create
 the user will have created a div in their body with a special id
