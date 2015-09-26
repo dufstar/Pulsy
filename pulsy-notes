@@ -41,9 +41,9 @@ COMPLETED
 - put dot in center of pt-anchor
 - add in click events
 - listen for window resize
+- add states to local storage
 
 NEXT
-- add states to local storage
 
 LATER
 - convert to ES6

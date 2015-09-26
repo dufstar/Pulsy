@@ -39,7 +39,7 @@ var PulsyDot = React.createClass({
   getInitialState: function() {
     return {
       showTooltip: false,
-      dotClicked: pulsyArray[this.props.dotNumber].dotClicked,
+      dotClicked: pulsyArray[this.props.dotNumber].dotClicked || localStorage.getItem("dotClicked" + this.props.dotNumber),
     };
   },
   dotClick: function() {
@@ -48,6 +48,7 @@ var PulsyDot = React.createClass({
       dotClicked: !this.state.dotClicked,
     });
     pulsyArray[this.props.dotNumber].dotClicked = !this.state.dotClicked;
+    localStorage.setItem("dotClicked" + this.props.dotNumber, true);
   },
   tooltipClick: function() {
     this.setState({
@@ -101,6 +102,9 @@ var PulsyDot = React.createClass({
 });
 
 var PulsyTour = React.createClass({
+  resetStorage: function() {
+    localStorage.clear();
+  },
   render: function() {
     var style = {
       zIndex: '9999',
@@ -114,6 +118,7 @@ var PulsyTour = React.createClass({
     return (
       <div style={style}>
         {dots}
+        <button onClick={this.resetStorage}>Reset Storage</button>
       </div>
     )
   }
@@ -133,18 +138,11 @@ for (i=0;i<pulsyAnchors.length;i++) {
   }
 }
 
-// RENDER ROOT COMPONENT IN DOM
+// RENDER ROOT COMPONENT ON WINDOW RESIZE
 window.onresize = function() {
   for (i=0;i<pulsyAnchors.length;i++) {
-    pulsyArray[i] = {
-      dotNumber: i,
-      tooltipName: 'Tooltip Name #' + i,
-      tooltipNote: 'Default tooltip note.',
-      dotClicked: false,
-      coordinates: pulsyAnchors[i].getBoundingClientRect(),
-    }
+    pulsyArray[i].coordinates = pulsyAnchors[i].getBoundingClientRect();
   }
-  console.log('yebo');
   React.render(<PulsyTour
                 anchors={pulsyLength}
                 pulsyArray={pulsyArray}
@@ -152,6 +150,7 @@ window.onresize = function() {
             );
 }
 
+// RENDER ROOT COMPONENT
 React.render(<PulsyTour
               anchors={pulsyLength}
               pulsyArray={pulsyArray}
