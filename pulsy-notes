@@ -24,26 +24,31 @@ LATER
 - option to store whether use has completed tour in database
 
 
+
+
+
+
 Components
 - PulsyTour
 - PulsyDot
 - PulsyTooltip
 
 Process
-- user adds pt-anchor class to all target elements
-- 
+- user adds pulsy-tour id div to body of target page
+- user adds pt-anchor tags to all target elements
 
 COMPLETED
+- put dot in center of pt-anchor
+- add in click events
+- listen for window resize
 
 NEXT
-- put dot in center of pt-anchor
-- liseten for window resize
-- add in click events
 - add states to local storage
 
 LATER
 - convert to ES6
 - convert css to scss
+- move js styles into separate js file and import into main one?
 
 
 identify which elements have the pulsy-target

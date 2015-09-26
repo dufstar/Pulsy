@@ -1,16 +1,3 @@
-// CREATE ARRAY OF PULSY ANCHORS
-var pulsyAnchors = document.getElementsByClassName('anchor');
-var pulsyLength = pulsyAnchors.length;
-var pulsyArray = [];
-for (i=0;i<pulsyAnchors.length;i++) {
-  pulsyArray[i] = {
-    dotNumber: i,
-    tooltipName: 'Tooltip Name #' + i,
-    tooltipNote: 'Default tooltip note.',
-    dotClicked: false,
-    coordinates: pulsyAnchors[i].getBoundingClientRect(),
-  };
-}
 
 var PulsyTooltip = React.createClass({
   render: function() {
@@ -132,9 +119,41 @@ var PulsyTour = React.createClass({
   }
 });
 
+// CREATE ARRAY OF PULSY ANCHORS
+var pulsyAnchors = document.getElementsByClassName('anchor');
+var pulsyLength = pulsyAnchors.length;
+var pulsyArray = [];
+for (i=0;i<pulsyAnchors.length;i++) {
+  pulsyArray[i] = {
+    dotNumber: i,
+    tooltipName: 'Tooltip Name #' + i,
+    tooltipNote: 'Default tooltip note.',
+    dotClicked: false,
+    coordinates: pulsyAnchors[i].getBoundingClientRect(),
+  }
+}
+
 // RENDER ROOT COMPONENT IN DOM
-React.render(<PulsyTour
+window.onresize = function() {
+  for (i=0;i<pulsyAnchors.length;i++) {
+    pulsyArray[i] = {
+      dotNumber: i,
+      tooltipName: 'Tooltip Name #' + i,
+      tooltipNote: 'Default tooltip note.',
+      dotClicked: false,
+      coordinates: pulsyAnchors[i].getBoundingClientRect(),
+    }
+  }
+  console.log('yebo');
+  React.render(<PulsyTour
                 anchors={pulsyLength}
                 pulsyArray={pulsyArray}
               />, document.getElementById('pulsy-tour')
-);
+            );
+}
+
+React.render(<PulsyTour
+              anchors={pulsyLength}
+              pulsyArray={pulsyArray}
+            />, document.getElementById('pulsy-tour')
+          );
