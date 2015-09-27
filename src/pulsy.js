@@ -1,4 +1,3 @@
-
 var PulsyTooltip = React.createClass({
   render: function() {
     var style = {
@@ -7,7 +6,7 @@ var PulsyTooltip = React.createClass({
         minHeight: '35px',
         background: '#eee',
         position: 'absolute',
-        top: this.props.coordinates.top/2 + this.props.coordinates.bottom/2 - 130,
+        top: this.props.coordinates.top/2 + this.props.coordinates.bottom/2 - 130 + window.scrollY,
         left: this.props.coordinates.left/2 + this.props.coordinates.right/2 - 8,
         transform: 'translate(-50%,0)',
         padding: '15px',
@@ -58,7 +57,7 @@ var PulsyDot = React.createClass({
   render: function() {
     var style = {
       pulsyDot: {
-        top: this.props.coordinates.top/2 + this.props.coordinates.bottom/2 - 8,
+        top: this.props.coordinates.top/2 + this.props.coordinates.bottom/2 - 8 + window.scrollY,
         left: this.props.coordinates.left/2 + this.props.coordinates.right/2 - 8,
         position: 'absolute',
         display: 'inline-block',
@@ -69,6 +68,7 @@ var PulsyDot = React.createClass({
         borderRadius: '100%',
         cursor: 'pointer',
         zIndex: '9998',
+        position: this.state.positionFixed ? 'fixed' : 'absolute',
       },
       pulsyFront: {
         position: 'absolute',
@@ -82,6 +82,7 @@ var PulsyDot = React.createClass({
         transform: 'translate(-50%,-50%)',
         cursor: 'pointer',
         zIndex: '9999',
+        position: this.state.positionFixed ? 'fixed' : 'absolute',
       }
     }
     var dot = !this.state.dotClicked ?
@@ -113,7 +114,10 @@ var PulsyTour = React.createClass({
     var pulsyLength = this.props.anchors;
     var dots = [];
     for (i=0;i<pulsyLength;i++) {
-      dots.push(<PulsyDot dotNumber={i} coordinates={this.props.pulsyArray[i].coordinates} />);
+      dots.push(<PulsyDot
+        dotNumber={i}
+        coordinates={this.props.pulsyArray[i].coordinates}
+        positionFixed={this.props.pulsyArray[i].positionFixed} />);
     }
     return (
       <div style={style}>
@@ -135,6 +139,7 @@ for (i=0;i<pulsyAnchors.length;i++) {
     tooltipNote: 'Default tooltip note.',
     dotClicked: false,
     coordinates: pulsyAnchors[i].getBoundingClientRect(),
+    positionFixed: false,
   }
 }
 
@@ -142,7 +147,9 @@ for (i=0;i<pulsyAnchors.length;i++) {
 window.onresize = function() {
   for (i=0;i<pulsyAnchors.length;i++) {
     pulsyArray[i].coordinates = pulsyAnchors[i].getBoundingClientRect();
+    pulsyArray[i].positionFixed = window.getComputedStyle(pulsyAnchors[i],null).getPropertyValue('position') === "fixed";
   }
+  console.log('yebo');
   React.render(<PulsyTour
                 anchors={pulsyLength}
                 pulsyArray={pulsyArray}

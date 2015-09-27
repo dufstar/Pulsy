@@ -44,6 +44,8 @@ COMPLETED
 - add states to local storage
 
 NEXT
+- check to see if pt-anchor has position fixed, and assign that to pulsydot accordingly
+- check to see if pt-anchor has position fixed on scroll
 
 LATER
 - convert to ES6
