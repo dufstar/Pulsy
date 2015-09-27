@@ -6,7 +6,7 @@ var PulsyTooltip = React.createClass({
         minHeight: '35px',
         background: '#eee',
         position: 'absolute',
-        top: this.props.coordinates.top/2 + this.props.coordinates.bottom/2 - 130 + window.scrollY,
+        top: this.props.coordinates.top/2 + this.props.coordinates.bottom/2 - 130,
         left: this.props.coordinates.left/2 + this.props.coordinates.right/2 - 8,
         transform: 'translate(-50%,0)',
         padding: '15px',
@@ -68,7 +68,7 @@ var PulsyDot = React.createClass({
         borderRadius: '100%',
         cursor: 'pointer',
         zIndex: '9998',
-        position: this.state.positionFixed ? 'fixed' : 'absolute',
+        position: this.props.positionFixed ? 'fixed' : 'absolute',
       },
       pulsyFront: {
         position: 'absolute',
@@ -82,7 +82,7 @@ var PulsyDot = React.createClass({
         transform: 'translate(-50%,-50%)',
         cursor: 'pointer',
         zIndex: '9999',
-        position: this.state.positionFixed ? 'fixed' : 'absolute',
+        position: this.props.positionFixed ? 'fixed' : 'absolute',
       }
     }
     var dot = !this.state.dotClicked ?
