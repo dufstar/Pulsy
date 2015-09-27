@@ -57,8 +57,8 @@ var PulsyDot = React.createClass({
   render: function() {
     var style = {
       pulsyDot: {
-        top: this.props.coordinates.top/2 + this.props.coordinates.bottom/2 - 8 + window.scrollY,
-        left: this.props.coordinates.left/2 + this.props.coordinates.right/2 - 8,
+        top: this.props.positionFixed ? this.props.coordinates.top/2 + this.props.coordinates.bottom/2 - 8 : this.props.coordinates.top/2 + this.props.coordinates.bottom/2 - 8 + window.scrollY,
+        left: this.props.positionFixed ? this.props.coordinates.left/2 + this.props.coordinates.right/2 - 8 : this.props.coordinates.left/2 + this.props.coordinates.right/2 - 8 + window.scrollX,
         position: 'absolute',
         display: 'inline-block',
         width: '20px',
@@ -145,6 +145,18 @@ for (i=0;i<pulsyAnchors.length;i++) {
 
 // RENDER ROOT COMPONENT ON WINDOW RESIZE
 window.onresize = function() {
+  for (i=0;i<pulsyAnchors.length;i++) {
+    pulsyArray[i].coordinates = pulsyAnchors[i].getBoundingClientRect();
+    pulsyArray[i].positionFixed = window.getComputedStyle(pulsyAnchors[i],null).getPropertyValue('position') === "fixed";
+  }
+  React.render(<PulsyTour
+                anchors={pulsyLength}
+                pulsyArray={pulsyArray}
+              />, document.getElementById('pulsy-tour')
+            );
+}
+
+window.onscroll = function() {
   for (i=0;i<pulsyAnchors.length;i++) {
     pulsyArray[i].coordinates = pulsyAnchors[i].getBoundingClientRect();
     pulsyArray[i].positionFixed = window.getComputedStyle(pulsyAnchors[i],null).getPropertyValue('position') === "fixed";
