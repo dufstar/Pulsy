@@ -1,13 +1,14 @@
 var PulsyTooltip = React.createClass({
   render: function() {
+    var coordinates = this.props.coordinates;
     var style = {
       pulsyTooltip: {
         minWidth: '200px',
         minHeight: '35px',
         background: '#eee',
         position: 'absolute',
-        top: this.props.coordinates.top/2 + this.props.coordinates.bottom/2 - 130,
-        left: this.props.coordinates.left/2 + this.props.coordinates.right/2 - 8,
+        top: this.props.positionFixed ? (coordinates.top + coordinates.bottom)/2 - 130 : (coordinates.top + coordinates.bottom)/2 - 130 + window.scrollY,
+        left: this.props.positionFixed ? (coordinates.left + coordinates.right)/2 : (coordinates.left + coordinates.right)/2 + window.scrollX,
         transform: 'translate(-50%,0)',
         padding: '15px',
         textAlign: 'left',
@@ -55,10 +56,11 @@ var PulsyDot = React.createClass({
     });
   },
   render: function() {
+    var coordinates = this.props.coordinates;
     var style = {
       pulsyDot: {
-        top: this.props.positionFixed ? this.props.coordinates.top/2 + this.props.coordinates.bottom/2 - 8 : this.props.coordinates.top/2 + this.props.coordinates.bottom/2 - 8 + window.scrollY,
-        left: this.props.positionFixed ? this.props.coordinates.left/2 + this.props.coordinates.right/2 - 8 : this.props.coordinates.left/2 + this.props.coordinates.right/2 - 8 + window.scrollX,
+        top: this.props.positionFixed ? (coordinates.top + coordinates.bottom)/2 : (coordinates.top + coordinates.bottom)/2 + window.scrollY,
+        left: this.props.positionFixed ? (coordinates.left + coordinates.right)/2 : (coordinates.left + coordinates.right)/2 + window.scrollX,
         position: 'absolute',
         display: 'inline-block',
         width: '20px',
@@ -91,7 +93,7 @@ var PulsyDot = React.createClass({
       </div> :
       null;
     var tooltip = this.state.showTooltip ?
-        <PulsyTooltip tooltipMsg = {pulsyArray[this.props.dotNumber].tooltipNote} removeTooltip={this.tooltipClick} coordinates={this.props.coordinates}/> :
+        <PulsyTooltip positionFixed={this.positionFixed} tooltipMsg={pulsyArray[this.props.dotNumber].tooltipNote} removeTooltip={this.tooltipClick} coordinates={this.props.coordinates}/> :
       null;
     return (
       <div>
