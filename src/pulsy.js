@@ -1,3 +1,22 @@
+var PulsyUnderlay = React.createClass({
+  render: function() {
+    var style = {
+      background: 'rgba(76,147,234,0.5)',
+      zIndex: '9998',
+      position: 'absolute',
+      left: '0',
+      top: '0',
+      width: '100vw',
+      height: '100vh',
+    }
+    return (
+      this.props.showUnderlay ?
+        <div style={style} onClick={this.props.toggleUnderlay}></div> :
+        null
+    );
+  }
+});
+
 var PulsyTooltip = React.createClass({
   render: function() {
     var coordinates = this.props.coordinates;
@@ -13,6 +32,7 @@ var PulsyTooltip = React.createClass({
         padding: '15px',
         textAlign: 'left',
         borderRadius: '2px',
+        zIndex: '9999',
       },
       closeTooltip: {
         color: '#333',
@@ -30,11 +50,12 @@ var PulsyTooltip = React.createClass({
       <div style={style.pulsyTooltip}>
         <div>{pulsyArray[this.props.dotId].tooltipNote}</div>
         <div>{pulsyArray[this.props.dotId].tooltipCustom}</div>
-        <div style={style.closeTooltip} onClick={this.props.removeTooltip}> + </div>
+        <div style={style.closeTooltip} onClick={this.props.toggleTooltip}> + </div>
       </div>
     );
   }
 });
+
 
 var PulsyDot = React.createClass({
   getInitialState: function() {
@@ -50,10 +71,11 @@ var PulsyDot = React.createClass({
     });
     pulsyArray[this.props.dotId].dotClicked = !this.state.dotClicked;
     localStorage.setItem("dotClicked" + this.props.dotId, true);
+    this.props.toggleUnderlay();
   },
-  tooltipClick: function() {
+  toggleTooltip: function() {
     this.setState({
-      showTooltip: !this.state.showTooltip
+      showTooltip: false,
     });
   },
   render: function() {
@@ -70,7 +92,7 @@ var PulsyDot = React.createClass({
         background: 'rgba(255,255,255,0.5)',
         borderRadius: '100%',
         cursor: 'pointer',
-        zIndex: '9998',
+        zIndex: '9997',
         position: this.props.positionFixed ? 'fixed' : 'absolute',
       },
       pulsyFront: {
@@ -94,7 +116,8 @@ var PulsyDot = React.createClass({
       </div> :
       null;
     var tooltip = this.state.showTooltip ?
-        <PulsyTooltip positionFixed={this.positionFixed} removeTooltip={this.tooltipClick} coordinates={this.props.coordinates}
+        <PulsyTooltip positionFixed={this.positionFixed} closeTooltip={this.props.closeTooltip}
+        toggleTooltip={this.toggleTooltip} coordinates={this.props.coordinates}
         dotId={this.props.dotId} /> :
       null;
     return (
@@ -107,8 +130,25 @@ var PulsyDot = React.createClass({
 });
 
 var PulsyTour = React.createClass({
+  getInitialState: function() {
+    return {
+      showUnderlay: false,
+      showTooltip: false,
+    };
+  },
   resetStorage: function() {
     localStorage.clear();
+  },
+  toggleUnderlay: function() {
+    this.setState({
+      showUnderlay: !this.state.showUnderlay
+    });
+  },
+  closeTooltip: function() {
+    this.setState({
+      showTooltip: !this.state.showTooltip,
+    });
+
   },
   render: function() {
     var style = {
@@ -121,16 +161,22 @@ var PulsyTour = React.createClass({
       dots.push(<PulsyDot
         dotId={i}
         coordinates={this.props.pulsyArray[i].coordinates}
-        positionFixed={this.props.pulsyArray[i].positionFixed} />);
+        positionFixed={this.props.pulsyArray[i].positionFixed}
+        toggleUnderlay={this.toggleUnderlay}
+        closeTooltip={this.closeTooltip}
+        showTooltip={this.state.showTooltip}
+      />);
     }
     return (
       <div style={style}>
         {dots}
         <button onClick={this.resetStorage}>Reset Storage</button>
+        <PulsyUnderlay showUnderlay={this.state.showUnderlay} toggleUnderlay={this.toggleUnderlay} />
       </div>
     )
   }
 });
+
 
 // CREATE ARRAY OF PULSY ANCHORS
 var pulsyAnchors = document.getElementsByClassName('anchor');
