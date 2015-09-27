@@ -28,7 +28,8 @@ var PulsyTooltip = React.createClass({
     }
     return (
       <div style={style.pulsyTooltip}>
-        {this.props.tooltipMsg}
+        <div>{pulsyArray[this.props.dotId].tooltipNote}</div>
+        <div>{pulsyArray[this.props.dotId].tooltipCustom}</div>
         <div style={style.closeTooltip} onClick={this.props.removeTooltip}> + </div>
       </div>
     );
@@ -93,7 +94,8 @@ var PulsyDot = React.createClass({
       </div> :
       null;
     var tooltip = this.state.showTooltip ?
-        <PulsyTooltip positionFixed={this.positionFixed} tooltipMsg={pulsyArray[this.props.dotId].tooltipNote} removeTooltip={this.tooltipClick} coordinates={this.props.coordinates}/> :
+        <PulsyTooltip positionFixed={this.positionFixed} removeTooltip={this.tooltipClick} coordinates={this.props.coordinates}
+        dotId={this.props.dotId} /> :
       null;
     return (
       <div>
@@ -137,13 +139,21 @@ var pulsyArray = [];
 for (i=0;i<pulsyAnchors.length;i++) {
   pulsyArray[i] = {
     dotId: i,
-    tooltipName: 'Tooltip Name #' + i,
-    tooltipNote: 'Default tooltip note.',
+    tooltipHeader: 'Default header',
+    tooltipNote: 'Default note',
+    tooltipCustom: 'Add your custom HTML here.',
     dotClicked: false,
     coordinates: pulsyAnchors[i].getBoundingClientRect(),
     positionFixed: false,
+    dotStyles: {},
+    dotOptions: {},
+    tooltipStyles: {},
+    tooltipOptions: {}
   }
 }
+
+var p1 = pulsyArray[0]
+p1.tooltipNote = "This is a tooltip that your users will see after they click on a dot! Isn't this one of the coolest things you've ever seen?";
 
 // RENDER ROOT COMPONENT ON WINDOW RESIZE
 window.onresize = function() {

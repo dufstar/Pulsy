@@ -16,26 +16,34 @@ COMPLETED
 - check to see if pt-anchor has position fixed, and assign that to pulsydot accordingly
 - check to see if pt-anchor has position fixed on scroll
 - fix weird positioning issue
+- easy way to customize tooltip note
 
 NEXT
-- easy way to customize tooltip note
-- way to add custom html within tooltip (links, divs with css, etc.)
-- fire event whenever a pulsydot is completed for use by user
-- way for user to modify location of dot (special variable in positioning of the dots?) or choose to override position altogether
+- create underlay when pulsy is active (optional)
+- fire event when all dots have been clicked and set a tourComplete key to true (if thats useful)
+- way for user to modify location of dot (special variable in positioning of the dots?) or can choose to override position altogether
+- restart pulsydots automatically upon hitting the reset button along with clearing localstorage
+- option for a 'next' button in all tooltips, which automatically moves you to the next tooltip pulsy
+- option to show an opt-out button in the tooltip, which sets localstorage to true for all
+- automatically toggle a tooltip style that prevents it from being offscreen
+- way to add custom html within tooltip (links, divs with css, etc.) instead of just a string.
+
+STYLING
+- begin the css craziness...in a controlled way
 - choose tooltip pop direction
 - choose whether to have a pointer arrow
-- begin the css craziness...in a controlled way
-- restart pulsydots automatically upon hitting the reset button along with clearing localstorage
-- option to show an opt-out button in the tooltip, which sets localstorage to true for all
-- option for a 'next' button in all tooltips, which automatically moves you to the next tooltip pulsy.  users can change order as desired
-- option to show underlay when pulsy is active
-- automatically toggle a tooltip style that prevents the dot from being offscreen
-- ask pulsy to give you an inventory of the elements with the pt-tag and which pulsynumber they have so you can easily customize them
-- ask pulsy to return you all pulsyarray items and their non-default settings, including the default setup
+- tooltip transitions
+- dot keyframes and transitions
+- colors for all
+- dot sizes
 
 LATER
 - convert to ES6
-- convert css to scss
 - move js styles into separate js file and import into main one?
 - determine whether pulsy dot is near an edge - default tooltip to left or bottom accordingly
 - make pulsydots track either local or session storage as an option
+- make mobile/touch-screen ready
+- make responsive
+- clean up css into separate files as much as possible
+- add hover effects (via radium?)
+- create listener that starts pulsytour based on a user-defined event
