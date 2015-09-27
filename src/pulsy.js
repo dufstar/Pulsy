@@ -39,7 +39,7 @@ var PulsyDot = React.createClass({
   getInitialState: function() {
     return {
       showTooltip: false,
-      dotClicked: pulsyArray[this.props.dotNumber].dotClicked || localStorage.getItem("dotClicked" + this.props.dotNumber),
+      dotClicked: pulsyArray[this.props.dotId].dotClicked || localStorage.getItem("dotClicked" + this.props.dotId),
     };
   },
   dotClick: function() {
@@ -47,8 +47,8 @@ var PulsyDot = React.createClass({
       showTooltip: !this.state.showTooltip,
       dotClicked: !this.state.dotClicked,
     });
-    pulsyArray[this.props.dotNumber].dotClicked = !this.state.dotClicked;
-    localStorage.setItem("dotClicked" + this.props.dotNumber, true);
+    pulsyArray[this.props.dotId].dotClicked = !this.state.dotClicked;
+    localStorage.setItem("dotClicked" + this.props.dotId, true);
   },
   tooltipClick: function() {
     this.setState({
@@ -93,7 +93,7 @@ var PulsyDot = React.createClass({
       </div> :
       null;
     var tooltip = this.state.showTooltip ?
-        <PulsyTooltip positionFixed={this.positionFixed} tooltipMsg={pulsyArray[this.props.dotNumber].tooltipNote} removeTooltip={this.tooltipClick} coordinates={this.props.coordinates}/> :
+        <PulsyTooltip positionFixed={this.positionFixed} tooltipMsg={pulsyArray[this.props.dotId].tooltipNote} removeTooltip={this.tooltipClick} coordinates={this.props.coordinates}/> :
       null;
     return (
       <div>
@@ -117,7 +117,7 @@ var PulsyTour = React.createClass({
     var dots = [];
     for (i=0;i<pulsyLength;i++) {
       dots.push(<PulsyDot
-        dotNumber={i}
+        dotId={i}
         coordinates={this.props.pulsyArray[i].coordinates}
         positionFixed={this.props.pulsyArray[i].positionFixed} />);
     }
@@ -136,7 +136,7 @@ var pulsyLength = pulsyAnchors.length;
 var pulsyArray = [];
 for (i=0;i<pulsyAnchors.length;i++) {
   pulsyArray[i] = {
-    dotNumber: i,
+    dotId: i,
     tooltipName: 'Tooltip Name #' + i,
     tooltipNote: 'Default tooltip note.',
     dotClicked: false,

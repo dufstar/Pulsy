@@ -30,6 +30,8 @@ NEXT
 - option for a 'next' button in all tooltips, which automatically moves you to the next tooltip pulsy.  users can change order as desired
 - option to show underlay when pulsy is active
 - automatically toggle a tooltip style that prevents the dot from being offscreen
+- ask pulsy to give you an inventory of the elements with the pt-tag and which pulsynumber they have so you can easily customize them
+- ask pulsy to return you all pulsyarray items and their non-default settings, including the default setup
 
 LATER
 - convert to ES6
