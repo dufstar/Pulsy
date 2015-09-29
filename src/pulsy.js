@@ -110,8 +110,9 @@ var PulsyDot = React.createClass({
         position: this.props.positionFixed ? 'fixed' : 'absolute',
       }
     }
+    var pulseName = "pulse-" + this.props.dotId;
     var dot = !this.state.dotClicked ?
-      <div style={style.pulsyDot} onClick={this.dotClick}>
+      <div style={style.pulsyDot} onClick={this.dotClick} className={pulseName}>
         <div style={style.pulsyFront} className="spinner"></div>
       </div> :
       null;
@@ -198,9 +199,6 @@ for (i=0;i<pulsyAnchors.length;i++) {
   }
 }
 
-var p1 = pulsyArray[0]
-p1.tooltipNote = "This is a tooltip that your users will see after they click on a dot! Isn't this one of the coolest things you've ever seen?";
-
 // RENDER ROOT COMPONENT ON WINDOW RESIZE
 window.onresize = function() {
   for (i=0;i<pulsyAnchors.length;i++) {
@@ -219,7 +217,6 @@ window.onscroll = function() {
     pulsyArray[i].coordinates = pulsyAnchors[i].getBoundingClientRect();
     pulsyArray[i].positionFixed = window.getComputedStyle(pulsyAnchors[i],null).getPropertyValue('position') === "fixed";
   }
-  console.log('yebo');
   React.render(<PulsyTour
                 anchors={pulsyLength}
                 pulsyArray={pulsyArray}
@@ -233,3 +230,9 @@ React.render(<PulsyTour
               pulsyArray={pulsyArray}
             />, document.getElementById('pulsy-tour')
           );
+
+// CUSTOMIZE DOTS HERE
+
+var p1 = pulsyArray[0]
+p1.tooltipNote = "This is a tooltip that your users will see after they click on a dot! Isn't this one of the coolest things you've ever seen?";
+document.getElementsByClassName('pulse-1')[0].style.background = 'blue';
