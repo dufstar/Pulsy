@@ -1,3 +1,5 @@
+// wrap in a IIFE (immediately invoked function expression)
+(function (){
 var PulsyUnderlay = React.createClass({
   render: function() {
     var style = {
@@ -10,9 +12,7 @@ var PulsyUnderlay = React.createClass({
       height: '100vh',
     }
     return (
-      this.props.showUnderlay ?
-        <div style={style} onClick={this.props.toggleUnderlay}></div> :
-        null
+        <div style={style} onClick={this.props.toggleUnderlay}></div>
     );
   }
 });
@@ -117,9 +117,12 @@ var PulsyDot = React.createClass({
       </div> :
       null;
     var tooltip = this.state.showTooltip ?
+      <div>
         <PulsyTooltip positionFixed={this.positionFixed} closeTooltip={this.props.closeTooltip}
         toggleTooltip={this.toggleTooltip} coordinates={this.props.coordinates}
-        dotId={this.props.dotId} /> :
+        dotId={this.props.dotId} />
+        <PulsyUnderlay toggleUnderlay={this.toggleTooltip} />
+      </div> :
       null;
     return (
       <div>
@@ -133,7 +136,6 @@ var PulsyDot = React.createClass({
 var PulsyTour = React.createClass({
   getInitialState: function() {
     return {
-      showUnderlay: false,
       showTooltip: false,
     };
   },
@@ -172,7 +174,6 @@ var PulsyTour = React.createClass({
       <div style={style}>
         {dots}
         <button onClick={this.resetStorage}>Reset Storage</button>
-        <PulsyUnderlay showUnderlay={this.state.showUnderlay} toggleUnderlay={this.toggleUnderlay} />
       </div>
     )
   }
@@ -234,5 +235,13 @@ React.render(<PulsyTour
 // CUSTOMIZE DOTS HERE
 
 var p1 = pulsyArray[0]
+window.PulsyUtilities = {
+  getPulsyDot: function(index) {
+    return document.getElementsByClassName('pulse-' + index)[0];
+  }
+};
 p1.tooltipNote = "This is a tooltip that your users will see after they click on a dot! Isn't this one of the coolest things you've ever seen?";
-document.getElementsByClassName('pulse-1')[0].style.background = 'blue';
+})();
+
+console.log("get a PulsyDot: ", PulsyUtilities.getPulsyDot(1));
+// PulsyUtilities.getPulsyDot(1).style.background = "blue";
