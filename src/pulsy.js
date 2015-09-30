@@ -1,5 +1,8 @@
 // wrap in a IIFE (immediately invoked function expression)
-(function (){
+// (function (){
+
+// var Radium = require('radium');
+
 var PulsyUnderlay = React.createClass({
   render: function() {
     var style = {
@@ -16,23 +19,32 @@ var PulsyUnderlay = React.createClass({
     );
   }
 });
+// module.exports = Radium(PulsyUnderlay);
 
 var PulsyTooltip = React.createClass({
   render: function() {
     var coordinates = this.props.coordinates;
+    var positionFixed = this.props.positionFixed;
+    var adjustHorizontal = this.props.adjustHorizontal;
+    var adjustVertical = this.props.adjustVertical;
+    var pumh = this.props.pumh;
+    var pumv = this.props.pumv;
     var style = {
       pulsyTooltip: {
         minWidth: '200px',
         minHeight: '35px',
         background: '#eee',
         position: 'absolute',
-        top: this.props.positionFixed ? (coordinates.top + coordinates.bottom)/2 - 130 : (coordinates.top + coordinates.bottom)/2 - 130 + window.scrollY,
-        left: this.props.positionFixed ? (coordinates.left + coordinates.right)/2 : (coordinates.left + coordinates.right)/2 + window.scrollX,
+        top: positionFixed ? (coordinates.top + coordinates.bottom)/2 + adjustVertical + pumv : (coordinates.top + coordinates.bottom)/2 + window.scrollY + pumv,
+        left: positionFixed ? (coordinates.left + coordinates.right)/2 + adjustHorizontal + pumh : (coordinates.left + coordinates.right)/2 + window.scrollX + pumh,
         transform: 'translate(-50%,0)',
         padding: '15px',
         textAlign: 'left',
         borderRadius: '2px',
         zIndex: '9999',
+        ':hover': {
+          background: '#ddd'
+        }
       },
       closeTooltip: {
         color: '#333',
@@ -118,16 +130,25 @@ var PulsyDot = React.createClass({
       null;
     var tooltip = this.state.showTooltip ?
       <div>
-        <PulsyTooltip positionFixed={this.positionFixed} closeTooltip={this.props.closeTooltip}
-        toggleTooltip={this.toggleTooltip} coordinates={this.props.coordinates}
-        dotId={this.props.dotId} />
-        <PulsyUnderlay toggleUnderlay={this.toggleTooltip} />
+        <PulsyTooltip
+          positionFixed={this.positionFixed}
+          closeTooltip={this.props.closeTooltip}
+          toggleTooltip={this.toggleTooltip}
+          coordinates={this.props.coordinates}
+          dotId={this.props.dotId}
+          pumh={this.props.pumh}
+          pumv={this.props.pumv}
+        />
+        <PulsyUnderlay
+          toggleUnderlay={this.toggleTooltip}
+        />
       </div> :
       null;
     return (
       <div>
         {dot}
         {tooltip}
+        {console.log(this.props.pumv)}
       </div>
     );
   }
@@ -168,6 +189,8 @@ var PulsyTour = React.createClass({
         toggleUnderlay={this.toggleUnderlay}
         closeTooltip={this.closeTooltip}
         showTooltip={this.state.showTooltip}
+        pumh={this.props.pumh}
+        pumv={this.props.pumv}
       />);
     }
     return (
@@ -200,6 +223,14 @@ for (i=0;i<pulsyAnchors.length;i++) {
   }
 }
 
+window.PulsyAdjustments = {
+  pulsyTooltipHorizontal: 150,
+  pulsyTooltipVertical: 150,
+}
+
+var pumh = window.PulsyAdjustments.pulsyTooltipHorizontal;
+var pumv = window.PulsyAdjustments.pulsyTooltipVertical;
+
 // RENDER ROOT COMPONENT ON WINDOW RESIZE
 window.onresize = function() {
   for (i=0;i<pulsyAnchors.length;i++) {
@@ -209,6 +240,8 @@ window.onresize = function() {
   React.render(<PulsyTour
                 anchors={pulsyLength}
                 pulsyArray={pulsyArray}
+                pumh={pumh}
+                pumv={pumv}
               />, document.getElementById('pulsy-tour')
             );
 }
@@ -221,6 +254,8 @@ window.onscroll = function() {
   React.render(<PulsyTour
                 anchors={pulsyLength}
                 pulsyArray={pulsyArray}
+                pumh={pumh}
+                pumv={pumv}
               />, document.getElementById('pulsy-tour')
             );
 }
@@ -229,19 +264,21 @@ window.onscroll = function() {
 React.render(<PulsyTour
               anchors={pulsyLength}
               pulsyArray={pulsyArray}
+              pumh={pumh}
+              pumv={pumv}
             />, document.getElementById('pulsy-tour')
           );
 
 // CUSTOMIZE DOTS HERE
 
-var p1 = pulsyArray[0]
+var p1 = pulsyArray[0];
 window.PulsyUtilities = {
   getPulsyDot: function(index) {
     return document.getElementsByClassName('pulse-' + index)[0];
-  }
+  },
 };
 p1.tooltipNote = "This is a tooltip that your users will see after they click on a dot! Isn't this one of the coolest things you've ever seen?";
-})();
+// }) ();
 
 console.log("get a PulsyDot: ", PulsyUtilities.getPulsyDot(1));
-// PulsyUtilities.getPulsyDot(1).style.background = "blue";
+PulsyUtilities.getPulsyDot(1).style.background = "blue";

@@ -18,17 +18,20 @@ COMPLETED
 - fix weird positioning issue
 - easy way to customize tooltip note
 - create underlay when pulsy is active (optional)
+- link closetooltip and close underlay events
 
 NEXT
-- fire event when all dots have been clicked and set a tourComplete key to true (if thats useful)
+- install radium
 - way for user to modify location of dot (special variable in positioning of the dots?) or can choose to override position altogether
-- restart pulsydots automatically upon hitting the reset button along with clearing localstorage
-- option for a 'next' button in all tooltips, which automatically moves you to the next tooltip pulsy
+- change location of tooltip if it is offscreen
 - option to show an opt-out button in the tooltip, which sets localstorage to true for all
-- automatically toggle a tooltip style that prevents it from being offscreen
 - way to add custom html within tooltip (links, divs with css, etc.) instead of just a string.
+- fire event when all dots have been clicked and set a tourComplete key to true
+
+- option for a 'next' button in all tooltips, which automatically moves you to the next tooltip pulsy
+- automatically toggle a tooltip style that prevents it from being offscreen
 - add a click handler that allows the user to trigger whatever event they want when dot is clicked and when tooltip is closed (likely using component did mount/unmount)
-- link closetooltip and close underlay events
+- restart pulsydots automatically upon hitting the reset button along with clearing localstorage
 
 STYLING
 - begin the css craziness...in a controlled way
