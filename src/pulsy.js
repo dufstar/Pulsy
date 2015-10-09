@@ -1,7 +1,5 @@
-
-
-var PulsyUnderlay = React.createClass({
-  render: function() {
+class PulsyUnderlay extends React.Component {
+  render() {
     var style = {
       background: 'rgba(76,147,234,0.5)',
       zIndex: '9998',
@@ -15,21 +13,15 @@ var PulsyUnderlay = React.createClass({
         <div style={style} onClick={this.props.toggleUnderlay}></div>
     );
   }
-});
-// module.exports = Radium(PulsyUnderlay);
+}
 
 var PulsyTooltip = React.createClass({
   render: function() {
     var po = this.props.pulsyObj;
     var coor = po.coordinates;
-    var ptv = po.tooltipOptions.pulsyTooltipVertical;
-    var pth = po.tooltipOptions.pulsyTooltipHorizontal;
+    var ptv = po.tooltipOptions.vertical;
+    var pth = po.tooltipOptions.horizontal;
     var positionFixed = this.props.pulsyObj.positionFixed;
-
-    // var coor = this.props.coordinates;
-    // var positionFixed = this.props.positionFixed;
-    // var pth = this.props.pth;
-    // var ptv = this.props.ptv;
     var style = {
       pulsyTooltip: {
         minWidth: '200px',
@@ -87,7 +79,7 @@ var PulsyDot = React.createClass({
       dotClicked: !this.state.dotClicked,
     });
     this.props.pulsyObj.dotClicked = !this.state.dotClicked;
-    localStorage.setItem("dotClicked" + this.props.dotId, true);
+    localStorage.setItem("dotClicked" + this.props.pulsyObj.dotId, true);
     this.props.toggleUnderlay;
   },
   toggleTooltip: function() {
@@ -98,8 +90,8 @@ var PulsyDot = React.createClass({
   render: function() {
     var po = this.props.pulsyObj;
     var coordinates = po.coordinates;
-    var pdv = po.tooltipOptions.pulsyTooltipVertical;
-    var pdh = po.tooltipOptions.pulsyTooltipHorizontal;
+    var pdv = po.dotOptions.vertical;
+    var pdh = po.dotOptions.horizontal;
     var style = {
       pulsyDot: {
         top: po.positionFixed ? (coordinates.top + coordinates.bottom)/2 : (coordinates.top + coordinates.bottom)/2 + pdv + window.scrollY,
@@ -113,7 +105,7 @@ var PulsyDot = React.createClass({
         borderRadius: '100%',
         cursor: 'pointer',
         zIndex: '9997',
-        position: po.positionFixed ? 'fixed' : 'absolute',
+        // position: po.positionFixed ? 'fixed' : 'absolute',
       },
       pulsyFront: {
         position: 'absolute',
@@ -127,7 +119,7 @@ var PulsyDot = React.createClass({
         transform: 'translate(-50%,-50%)',
         cursor: 'pointer',
         zIndex: '9999',
-        position: this.props.positionFixed ? 'fixed' : 'absolute',
+        // position: this.props.positionFixed ? 'fixed' : 'absolute',
       }
     }
     var pulseName = "pulse-" + this.props.dotId;
@@ -175,9 +167,9 @@ var PulsyTour = React.createClass({
       zIndex: '9999',
       position: 'absolute',
     }
-    var pulsyLength = pulsyAnchors.length;
+    let pulsyLength = pulsyAnchors.length;
     var dots = [];
-    for (i=0;i<pulsyLength;i++) {
+    for (var i=0;i<pulsyLength;i++) {
       dots.push(<PulsyDot
         showTooltip={this.state.showTooltip}
         pulsyObj={this.props.pulsyArray[i]}
@@ -197,9 +189,8 @@ var PulsyTour = React.createClass({
 var pulsyAnchors = document.getElementsByClassName('anchor');
 var pulsyArray = [];
 function findAnchors() {
-  for (i=0;i<pulsyAnchors.length;i++) {
+  for (var i=0;i<pulsyAnchors.length;i++) {
     pulsyArray[i] = {
-      anchors: pulsyAnchors.length,
       dotId: i,
       tooltipHeader: 'Default header',
       tooltipNote: 'Default note',
@@ -207,12 +198,15 @@ function findAnchors() {
       dotClicked: false,
       coordinates: pulsyAnchors[i].getBoundingClientRect(),
       positionFixed: window.getComputedStyle(pulsyAnchors[i],null).getPropertyValue('position') === "fixed",
-      dotOptions: {},
+      dotOptions: {
+        horizontal: 0,
+        vertical: 0,
+        transition: false,
+      },
       tooltipOptions: {
-        pulsyTooltipHorizontal: 0,
-        pulsyTooltipVertical: 0,
-        pulsyDotHorizontal: 0,
-        pulsyDotVertical: 0,
+        horizontal: 0,
+        vertical: 0,
+        transition: false,
       },
     }
   }

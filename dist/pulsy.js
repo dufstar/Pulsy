@@ -1,46 +1,58 @@
-// wrap in a IIFE (immediately invoked function expression)
-// (function (){
-
-// var Radium = require('radium');
-
 'use strict';
 
-var PulsyUnderlay = React.createClass({
-  displayName: 'PulsyUnderlay',
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-  render: function render() {
-    var style = {
-      background: 'rgba(76,147,234,0.5)',
-      zIndex: '9998',
-      position: 'absolute',
-      left: '0',
-      top: '0',
-      width: '100vw',
-      height: '100vh'
-    };
-    return React.createElement('div', { style: style, onClick: this.props.toggleUnderlay });
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PulsyUnderlay = (function (_React$Component) {
+  _inherits(PulsyUnderlay, _React$Component);
+
+  function PulsyUnderlay() {
+    _classCallCheck(this, PulsyUnderlay);
+
+    _get(Object.getPrototypeOf(PulsyUnderlay.prototype), 'constructor', this).apply(this, arguments);
   }
-});
-// module.exports = Radium(PulsyUnderlay);
+
+  _createClass(PulsyUnderlay, [{
+    key: 'render',
+    value: function render() {
+      var style = {
+        background: 'rgba(76,147,234,0.5)',
+        zIndex: '9998',
+        position: 'absolute',
+        left: '0',
+        top: '0',
+        width: '100vw',
+        height: '100vh'
+      };
+      return React.createElement('div', { style: style, onClick: this.props.toggleUnderlay });
+    }
+  }]);
+
+  return PulsyUnderlay;
+})(React.Component);
 
 var PulsyTooltip = React.createClass({
   displayName: 'PulsyTooltip',
 
   render: function render() {
-    var coor = this.props.coordinates;
-    var positionFixed = this.props.positionFixed;
-    var horiz = this.props.adjustHorizontal;
-    var vert = this.props.adjustVertical;
-    var pumh = this.props.pumh;
-    var pumv = this.props.pumv;
+    var po = this.props.pulsyObj;
+    var coor = po.coordinates;
+    var ptv = po.tooltipOptions.vertical;
+    var pth = po.tooltipOptions.horizontal;
+    var positionFixed = this.props.pulsyObj.positionFixed;
     var style = {
       pulsyTooltip: {
         minWidth: '200px',
         minHeight: '35px',
         background: '#eee',
         position: 'absolute',
-        top: positionFixed ? (coor.top + coor.bottom) / 2 + vert + pumv : (coor.top + coor.bottom) / 2 + window.scrollY + pumv,
-        left: positionFixed ? (coor.left + coor.right) / 2 + horiz + pumh : (coor.left + coor.right) / 2 + window.scrollX + pumh,
+        top: positionFixed ? (coor.top + coor.bottom) / 2 + ptv : (coor.top + coor.bottom) / 2 + window.scrollY + ptv,
+        left: positionFixed ? (coor.left + coor.right) / 2 + pth : (coor.left + coor.right) / 2 + window.scrollX + pth,
         transform: 'translate(-50%,0)',
         padding: '15px',
         textAlign: 'left',
@@ -68,16 +80,16 @@ var PulsyTooltip = React.createClass({
       React.createElement(
         'div',
         null,
-        pulsyArray[this.props.dotId].tooltipNote
+        this.props.pulsyObj.tooltipNote
       ),
       React.createElement(
         'div',
         null,
-        pulsyArray[this.props.dotId].tooltipCustom
+        this.props.pulsyObj.tooltipCustom
       ),
       React.createElement(
         'div',
-        { style: style.closeTooltip, onClick: this.props.toggleTooltip },
+        { style: style.closeTooltip, onClick: this.props.toggleUnderlay },
         ' + '
       )
     );
@@ -90,7 +102,7 @@ var PulsyDot = React.createClass({
   getInitialState: function getInitialState() {
     return {
       showTooltip: false,
-      dotClicked: pulsyArray[this.props.dotId].dotClicked || localStorage.getItem("dotClicked" + this.props.dotId)
+      dotClicked: this.props.pulsyObj.dotClicked || localStorage.getItem("dotClicked" + this.props.pulsyObj.dotId)
     };
   },
   dotClick: function dotClick() {
@@ -98,9 +110,9 @@ var PulsyDot = React.createClass({
       showTooltip: !this.state.showTooltip,
       dotClicked: !this.state.dotClicked
     });
-    pulsyArray[this.props.dotId].dotClicked = !this.state.dotClicked;
-    localStorage.setItem("dotClicked" + this.props.dotId, true);
-    this.props.toggleUnderlay();
+    this.props.pulsyObj.dotClicked = !this.state.dotClicked;
+    localStorage.setItem("dotClicked" + this.props.pulsyObj.dotId, true);
+    this.props.toggleUnderlay;
   },
   toggleTooltip: function toggleTooltip() {
     this.setState({
@@ -108,13 +120,14 @@ var PulsyDot = React.createClass({
     });
   },
   render: function render() {
-    var coordinates = this.props.coordinates;
-    var pudh = this.props.pudh;
-    var pudv = this.props.pudv;
+    var po = this.props.pulsyObj;
+    var coordinates = po.coordinates;
+    var pdv = po.dotOptions.vertical;
+    var pdh = po.dotOptions.horizontal;
     var style = {
       pulsyDot: {
-        top: this.props.positionFixed ? (coordinates.top + coordinates.bottom) / 2 : (coordinates.top + coordinates.bottom) / 2 + pudv + window.scrollY,
-        left: this.props.positionFixed ? (coordinates.left + coordinates.right) / 2 : (coordinates.left + coordinates.right) / 2 + pudh + window.scrollX,
+        top: po.positionFixed ? (coordinates.top + coordinates.bottom) / 2 : (coordinates.top + coordinates.bottom) / 2 + pdv + window.scrollY,
+        left: po.positionFixed ? (coordinates.left + coordinates.right) / 2 : (coordinates.left + coordinates.right) / 2 + pdh + window.scrollX,
         position: 'absolute',
         display: 'inline-block',
         width: '20px',
@@ -123,9 +136,9 @@ var PulsyDot = React.createClass({
         background: 'rgba(255,255,255,0.5)',
         borderRadius: '100%',
         cursor: 'pointer',
-        zIndex: '9997',
-        position: this.props.positionFixed ? 'fixed' : 'absolute'
+        zIndex: '9997'
       },
+      // position: po.positionFixed ? 'fixed' : 'absolute',
       pulsyFront: {
         position: 'absolute',
         display: 'inline-block',
@@ -137,10 +150,10 @@ var PulsyDot = React.createClass({
         top: '50%',
         transform: 'translate(-50%,-50%)',
         cursor: 'pointer',
-        zIndex: '9999',
-        position: this.props.positionFixed ? 'fixed' : 'absolute'
+        zIndex: '9999'
       }
     };
+    // position: this.props.positionFixed ? 'fixed' : 'absolute',
     var pulseName = "pulse-" + this.props.dotId;
     var dot = !this.state.dotClicked ? React.createElement(
       'div',
@@ -150,27 +163,14 @@ var PulsyDot = React.createClass({
     var tooltip = this.state.showTooltip ? React.createElement(
       'div',
       null,
-      React.createElement(PulsyTooltip, {
-        positionFixed: this.positionFixed,
-        closeTooltip: this.props.closeTooltip,
-        toggleTooltip: this.toggleTooltip,
-        coordinates: this.props.coordinates,
-        dotId: this.props.dotId,
-        pumh: this.props.pumh,
-        pumv: this.props.pumv,
-        pudh: this.props.pudh,
-        pudv: this.props.pudv
-      }),
-      React.createElement(PulsyUnderlay, {
-        toggleUnderlay: this.toggleTooltip
-      })
+      React.createElement(PulsyTooltip, { pulsyObj: this.props.pulsyObj, toggleUnderlay: this.toggleTooltip }),
+      React.createElement(PulsyUnderlay, { toggleUnderlay: this.toggleTooltip })
     ) : null;
     return React.createElement(
       'div',
       null,
       dot,
-      tooltip,
-      console.log(this.props.pumv)
+      tooltip
     );
   }
 });
@@ -201,20 +201,12 @@ var PulsyTour = React.createClass({
       zIndex: '9999',
       position: 'absolute'
     };
-    var pulsyLength = this.props.anchors;
+    var pulsyLength = pulsyAnchors.length;
     var dots = [];
-    for (i = 0; i < pulsyLength; i++) {
+    for (var i = 0; i < pulsyLength; i++) {
       dots.push(React.createElement(PulsyDot, {
-        dotId: i,
-        coordinates: this.props.pulsyArray[i].coordinates,
-        positionFixed: this.props.pulsyArray[i].positionFixed,
-        toggleUnderlay: this.toggleUnderlay,
-        closeTooltip: this.closeTooltip,
         showTooltip: this.state.showTooltip,
-        pumh: this.props.pumh,
-        pumv: this.props.pumv,
-        pudh: this.props.pudh,
-        pudv: this.props.pudv
+        pulsyObj: this.props.pulsyArray[i]
       }));
     }
     return React.createElement(
@@ -232,85 +224,43 @@ var PulsyTour = React.createClass({
 
 // CREATE ARRAY OF PULSY ANCHORS
 var pulsyAnchors = document.getElementsByClassName('anchor');
-var pulsyLength = pulsyAnchors.length;
 var pulsyArray = [];
-for (i = 0; i < pulsyAnchors.length; i++) {
-  pulsyArray[i] = {
-    dotId: i,
-    tooltipHeader: 'Default header',
-    tooltipNote: 'Default note',
-    tooltipCustom: 'Add your custom HTML here.',
-    dotClicked: false,
-    coordinates: pulsyAnchors[i].getBoundingClientRect(),
-    positionFixed: false,
-    dotStyles: {},
-    dotOptions: {},
-    tooltipStyles: {},
-    tooltipOptions: {}
-  };
+function findAnchors() {
+  for (var i = 0; i < pulsyAnchors.length; i++) {
+    pulsyArray[i] = {
+      dotId: i,
+      tooltipHeader: 'Default header',
+      tooltipNote: 'Default note',
+      tooltipCustom: 'Add your custom HTML here.',
+      dotClicked: false,
+      coordinates: pulsyAnchors[i].getBoundingClientRect(),
+      positionFixed: window.getComputedStyle(pulsyAnchors[i], null).getPropertyValue('position') === "fixed",
+      dotOptions: {
+        horizontal: 0,
+        vertical: 0,
+        transition: false
+      },
+      tooltipOptions: {
+        horizontal: 0,
+        vertical: 0,
+        transition: false
+      }
+    };
+  }
 }
 
-window.PulsyAdjustments = {
-  pulsyTooltipHorizontal: 0,
-  pulsyTooltipVertical: 0,
-  pulsyDotHorizontal: 100,
-  pulsyDotVertical: 50
-};
-
-// RENDER ROOT COMPONENT ON WINDOW RESIZE
-window.onresize = function () {
-  for (i = 0; i < pulsyAnchors.length; i++) {
-    pulsyArray[i].coordinates = pulsyAnchors[i].getBoundingClientRect();
-    pulsyArray[i].positionFixed = window.getComputedStyle(pulsyAnchors[i], null).getPropertyValue('position') === "fixed";
-  }
-  React.render(React.createElement(PulsyTour, {
-    anchors: pulsyLength,
-    pulsyArray: pulsyArray,
-    pumh: window.PulsyAdjustments.pulsyTooltipHorizontal,
-    pumv: window.PulsyAdjustments.pulsyTooltipVertical,
-    pudh: window.PulsyAdjustments.pulsyDotHorizontal,
-    pudv: window.PulsyAdjustments.pulsyDotVertical
-  }), document.getElementById('pulsy-tour'));
-};
-
-window.onscroll = function () {
-  for (i = 0; i < pulsyAnchors.length; i++) {
-    pulsyArray[i].coordinates = pulsyAnchors[i].getBoundingClientRect();
-    pulsyArray[i].positionFixed = window.getComputedStyle(pulsyAnchors[i], null).getPropertyValue('position') === "fixed";
-  }
-  React.render(React.createElement(PulsyTour, {
-    anchors: pulsyLength,
-    pulsyArray: pulsyArray,
-    pumh: window.PulsyAdjustments.pulsyTooltipHorizontal,
-    pumv: window.PulsyAdjustments.pulsyTooltipVertical,
-    pudh: window.PulsyAdjustments.pulsyDotHorizontal,
-    pudv: window.PulsyAdjustments.pulsyDotVertical
-  }), document.getElementById('pulsy-tour'));
-};
+findAnchors();
+var pulsyTour = React.createElement(PulsyTour, { pulsyArray: pulsyArray });
 
 // RENDER ROOT COMPONENT
-React.render(React.createElement(PulsyTour, {
-  anchors: pulsyLength,
-  pulsyArray: pulsyArray,
-  pumh: window.PulsyAdjustments.pulsyTooltipHorizontal,
-  pumv: window.PulsyAdjustments.pulsyTooltipVertical,
-  pudh: window.PulsyAdjustments.pulsyDotHorizontal,
-  pudv: window.PulsyAdjustments.pulsyDotVertical
-}), document.getElementById('pulsy-tour'));
+React.render(pulsyTour, document.getElementById('pulsy-tour'));
 
-// CUSTOMIZE DOTS HERE
-
-var p1 = pulsyArray[0];
-window.PulsyUtilities = {
-  getPulsyDot: function getPulsyDot(index) {
-    return document.getElementsByClassName('pulse-' + index)[0];
-  }
+window.onresize = function renderResize() {
+  findAnchors();
+  React.render(pulsyTour, document.getElementById('pulsy-tour'));
 };
 
-//MAKE THIS INTO A FUNCTION TO SET THE TOOLTIP NOTE
-var tNote = document.getElementsByClassName('anchor')[0].setAttribute('data-pt-tooltip', 'obey obey');
-p1.tooltipNote = "This is a tooltip that your users will see after they click on a dot! Isn't this one of the coolest things you've ever seen?";
-// }) ();
-
-console.log("get a PulsyDot: ", PulsyUtilities.getPulsyDot(1));
-// PulsyUtilities.getPulsyDot(1).style.background = "blue";
+window.onscroll = function renderScroll() {
+  findAnchors();
+  React.render(pulsyTour, document.getElementById('pulsy-tour'));
+};
