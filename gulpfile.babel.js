@@ -15,7 +15,7 @@ var gulp = require('gulp'),
     babel = require("gulp-babel");
 
 gulp.task('styles', function() {
-  return sass('src/styles/**/*.scss', { style: 'expanded' })
+  return sass('src/styles/*.scss', { style: 'expanded' })
     .pipe(autoprefixer('last 2 version'))
     .pipe(concat('main.css'))
     .pipe(gulp.dest('dist/css'))
@@ -26,7 +26,7 @@ gulp.task('styles', function() {
 });
 
 gulp.task('scripts', function() {
-  return gulp.src('src/scripts/**/*.js')
+  return gulp.src('src/scripts/*.js')
     .pipe(babel())
     .pipe(concat('main.js'))
     .pipe(gulp.dest('dist/js'))
@@ -37,7 +37,7 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('images', function() {
-  return gulp.src('src/images/**/*')
+  return gulp.src('src/images/*')
     .pipe(cache(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true })))
     .pipe(gulp.dest('dist//img'))
     .pipe(notify({ message: 'Images task complete' }));
@@ -59,9 +59,9 @@ gulp.task('default', ['clean'], function() {
 
 gulp.task('watch', function() {
   gulp.watch('components/pulsy.html', ['components']);
-  gulp.watch('src/styles/**/*.scss', ['styles']);
-  gulp.watch('src/scripts/**/*.js', ['scripts']);
-  gulp.watch('src/images/**/*', ['images']);
+  gulp.watch('src/styles/*.scss', ['styles']);
+  gulp.watch('src/scripts/*.js', ['scripts']);
+  gulp.watch('src/images/*', ['images']);
   livereload.listen();
   gulp.watch(['dist/**']).on('change', livereload.changed);
 });

@@ -28,10 +28,10 @@ COMPLETED
 - create function to render root components
 - send object in through props
 - get ES6 up and running
+- automatically run gulp babel and watch for changes
 
 NEXT
 - convert to ES6
-- automatically run gulp babel and watch for changes
 - install radium
 - add hover effects
 - option to show an opt-out button in the tooltip, which sets localstorage to true for all

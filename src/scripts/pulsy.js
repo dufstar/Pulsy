@@ -166,6 +166,18 @@ var PulsyTour = React.createClass({
     var style = {
       zIndex: '9999',
       position: 'absolute',
+      resetStorage: {
+        width: '150px',
+        height: '50px',
+        borderRadius: '2px',
+        background: '#ffffff',
+        left: '100px',
+        top: '65vh',
+        position: 'absolute',
+        border: 'none',
+        cursor: 'pointer',
+        outline: 'none',
+      },
     }
     let pulsyLength = pulsyAnchors.length;
     var dots = [];
@@ -178,7 +190,8 @@ var PulsyTour = React.createClass({
     return (
       <div style={style}>
         {dots}
-        <button onClick={this.resetStorage}>Reset Storage</button>
+
+        <button style={style.resetStorage} onClick={this.resetStorage}>Reset Storage</button>
       </div>
     )
   }
