@@ -19,11 +19,13 @@ COMPLETED
 - easy way to customize tooltip note
 - create underlay when pulsy is active (optional)
 - link closetooltip and close underlay events
+- way for user to modify location of dot (special variable in positioning of the dots?) or can choose to override position altogether
 
 NEXT
+- create function to render root components
+- send object in through props
 - install radium
-- way for user to modify location of dot (special variable in positioning of the dots?) or can choose to override position altogether
-- change location of tooltip if it is offscreen
+- change location of tooltip if it is offscreen and 'smart-position' is set to true
 - option to show an opt-out button in the tooltip, which sets localstorage to true for all
 - way to add custom html within tooltip (links, divs with css, etc.) instead of just a string.
 - fire event when all dots have been clicked and set a tourComplete key to true

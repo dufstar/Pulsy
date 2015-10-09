@@ -1,5 +1,7 @@
 var gulp = require('gulp');
 var webserver = require('gulp-webserver');
+var babel = require("gulp-babel");
+
 
 gulp.task('webserver', function() {
   gulp.src('./')
@@ -8,4 +10,10 @@ gulp.task('webserver', function() {
       directoryListing: true,
       open: true
     }));
+});
+
+gulp.task('babel', function() {
+  gulp.src('src/pulsy.js')
+    .pipe(babel())
+    .pipe(gulp.dest('dist'));
 });
