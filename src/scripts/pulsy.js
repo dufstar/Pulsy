@@ -166,11 +166,11 @@ var PulsyTour = React.createClass({
     var style = {
       zIndex: '9999',
       position: 'absolute',
-      resetStorage: {
+      resetButton: {
         width: '150px',
         height: '50px',
         borderRadius: '2px',
-        background: '#ffffff',
+        background: '#555',
         left: '100px',
         top: '65vh',
         position: 'absolute',
@@ -191,7 +191,7 @@ var PulsyTour = React.createClass({
       <div style={style}>
         {dots}
 
-        <button style={style.resetStorage} onClick={this.resetStorage}>Reset Storage</button>
+        <button style={style.resetButton} onClick={this.resetStorage}>Reset Storage</button>
       </div>
     )
   }

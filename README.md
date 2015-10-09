@@ -31,9 +31,11 @@ COMPLETED
 - automatically run gulp babel and watch for changes
 
 NEXT
-- convert to ES6
+- convert everything to ES6 syntax
 - install radium
 - add hover effects
+- look into way to not break your livereload whenever you make a breaking change (hotreload?)
+- move all styles into their own js file and export/import them to pulsy.js
 - option to show an opt-out button in the tooltip, which sets localstorage to true for all
 - way to add custom html within tooltip (links, divs with css, etc.) instead of just a string.
 - fire event when all dots have been clicked and set a tourComplete key to true
