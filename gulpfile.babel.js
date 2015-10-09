@@ -18,10 +18,10 @@ gulp.task('styles', function() {
   return sass('src/styles/**/*.scss', { style: 'expanded' })
     .pipe(autoprefixer('last 2 version'))
     .pipe(concat('main.css'))
-    .pipe(gulp.dest('dist/assets/css'))
+    .pipe(gulp.dest('dist/css'))
     .pipe(rename({suffix: '.min'}))
     .pipe(minifycss())
-    .pipe(gulp.dest('dist/assets/css'))
+    .pipe(gulp.dest('dist/css'))
     .pipe(notify({ message: 'Styles task complete' }));
 });
 
@@ -29,29 +29,36 @@ gulp.task('scripts', function() {
   return gulp.src('src/scripts/**/*.js')
     .pipe(babel())
     .pipe(concat('main.js'))
-    .pipe(gulp.dest('dist/assets/js'))
+    .pipe(gulp.dest('dist/js'))
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
-    .pipe(gulp.dest('dist/assets/js'))
+    .pipe(gulp.dest('dist/js'))
     .pipe(notify({ message: 'Scripts task complete' }));
 });
 
 gulp.task('images', function() {
   return gulp.src('src/images/**/*')
     .pipe(cache(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true })))
-    .pipe(gulp.dest('dist/assets/img'))
+    .pipe(gulp.dest('dist//img'))
     .pipe(notify({ message: 'Images task complete' }));
 });
 
+gulp.task('components', function() {
+  return gulp.src('components/*.html')
+    .pipe(gulp.dest('dist/view'))
+    .pipe(notify({ message: 'Scripts task complete' }));
+});
+
 gulp.task('clean', function(cb) {
-    del(['dist/assets/css', 'dist/assets/js', 'dist/assets/img'], cb)
+    del(['dist/css', 'dist/js', 'dist//img'], cb)
 });
 
 gulp.task('default', ['clean'], function() {
-    gulp.start('styles', 'scripts', 'images');
+    gulp.start('styles', 'scripts', 'images', 'components');
 });
 
 gulp.task('watch', function() {
+  gulp.watch('components/pulsy.html', ['components']);
   gulp.watch('src/styles/**/*.scss', ['styles']);
   gulp.watch('src/scripts/**/*.js', ['scripts']);
   gulp.watch('src/images/**/*', ['images']);
