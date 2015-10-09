@@ -14,16 +14,6 @@ var gulp = require('gulp'),
     webserver = require('gulp-webserver'),
     babel = require("gulp-babel");
 
-
-gulp.task('go', function() {
-  return gulp.src('./')
-    .pipe(webserver({
-      livereload: true,
-      directoryListing: true,
-      open: true
-    }));
-});
-
 gulp.task('styles', function() {
   return sass('src/styles/**/*.scss', { style: 'expanded' })
     .pipe(autoprefixer('last 2 version'))
