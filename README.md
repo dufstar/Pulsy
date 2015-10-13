@@ -20,8 +20,6 @@ COMPLETED
 - add states to local storage
 - check to see if pt-anchor has position fixed, and assign that to pulsydot accordingly
 - check to see if pt-anchor has position fixed on scroll
-- fix weird positioning issue
-- easy way to customize tooltip note
 - create underlay when pulsy is active (optional)
 - link closetooltip and close underlay events
 - way for user to modify location of dot (special variable in positioning of the dots?) or can choose to override position altogether
@@ -31,29 +29,34 @@ COMPLETED
 - automatically run gulp babel and watch for changes
 
 NEXT
+- separate js styles into separate files using import and export
 - convert everything to ES6 syntax
 - install radium
 - add hover effects
-- look into way to not break your livereload whenever you make a breaking change (hotreload?)
 - move all styles into their own js file and export/import them to pulsy.js
-- option to show an opt-out button in the tooltip, which sets localstorage to true for all
-- way to add custom html within tooltip (links, divs with css, etc.) instead of just a string.
-- fire event when all dots have been clicked and set a tourComplete key to true
 
-- option for a 'next' button in all tooltips, which automatically moves you to the next tooltip pulsy
-- automatically toggle a tooltip style that prevents it from being offscreen
-- add a click handler that allows the user to trigger whatever event they want when dot is clicked and when tooltip is closed (likely using component did mount/unmount)
-- restart pulsydots automatically upon hitting the reset button along with clearing localstorage
-- begin the css craziness...in a controlled way
-- choose tooltip pop direction
+STYLES
+
+Dot API
+- dot transitions
+- colors
+- dot as tooltip?
+- different pulses
+
+Tooltip API
+- tooltip pop direction
 - choose whether to have a pointer arrow
 - tooltip transitions
-- dot keyframes and transitions
-- colors for all
-- dot sizes
+- colors
 
-LATER
+
+SOMETIME
 - determine whether pulsy dot is near an edge - default tooltip to left or bottom accordingly
 - make pulsydots track either local or session storage as an option
 - make mobile/touch-screen ready
 - create listener that starts pulsytour based on a user-defined event
+- option to show an opt-out button in the tooltip, which sets localstorage to true for all
+- way to add custom html within tooltip (links, divs with css, etc.) instead of just a string.
+- fire event when all dots have been clicked and set a tourComplete key to true
+- restart pulsydots automatically upon hitting the reset button along with clearing localstorage
+- option for a 'next' button in all tooltips, which automatically moves you to the next tooltip pulsy
