@@ -1,3 +1,6 @@
+import cube from './styles';
+console.log(cube(3));
+//
 
 class PulsyUnderlay extends React.Component {
   render() {

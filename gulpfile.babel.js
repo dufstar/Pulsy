@@ -12,7 +12,8 @@ var gulp = require('gulp'),
     livereload = require('gulp-livereload'),
     del = require('del'),
     webserver = require('gulp-webserver'),
-    babel = require("gulp-babel");
+    babel = require("gulp-babel"),
+    browserify = require("gulp-browserify");
 
 gulp.task('styles', function() {
   return sass('src/styles/*.scss', { style: 'expanded' })
@@ -28,12 +29,15 @@ gulp.task('styles', function() {
 gulp.task('scripts', function() {
   return gulp.src('src/scripts/*.js')
     .pipe(babel())
-    .pipe(concat('main.js'))
-    .pipe(gulp.dest('dist/js'))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(uglify())
-    .pipe(gulp.dest('dist/js'))
-    .pipe(notify({ message: 'Scripts task complete' }));
+    .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('browserify', ['scripts'], function() {
+  return gulp.src('dist/js/pulsy.js')
+  .pipe(browserify())
+  .pipe(rename('bundle.js'))
+  .pipe(gulp.dest('dist/js'))
+  .pipe(notify({ message: 'Scripts task complete' }));
 });
 
 gulp.task('images', function() {
@@ -53,14 +57,14 @@ gulp.task('clean', function(cb) {
     del(['dist/css', 'dist/js', 'dist//img'], cb)
 });
 
-gulp.task('default', ['clean'], function() {
-    gulp.start('styles', 'scripts', 'images', 'components');
-});
+gulp.task('build', ['clean', 'browserify', 'images', 'components', 'styles', 'scripts']);
 
-gulp.task('watch', function() {
+gulp.task('default', ['build']);
+
+gulp.task('watch', ['build'], function() {
   gulp.watch('components/pulsy.html', ['components']);
   gulp.watch('src/styles/*.scss', ['styles']);
-  gulp.watch('src/scripts/*.js', ['scripts']);
+  gulp.watch('src/scripts/*.js', ['browserify']);
   gulp.watch('src/images/*', ['images']);
   livereload.listen();
   gulp.watch(['dist/**']).on('change', livereload.changed);
