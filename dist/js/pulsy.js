@@ -50,14 +50,14 @@ class PulsyTooltip extends React.Component{
       animationProps = {
         duration: 200,
         animation: {
-          rotateY: 70
+          rotateZ: 70
         }
       }
     } else {
       animationProps = {
         duration: 1100, // longer due to swinging
         animation: {
-          rotateY: [0, 'spring']
+          rotateZ: [0, 'spring']
         }
       }
     }
