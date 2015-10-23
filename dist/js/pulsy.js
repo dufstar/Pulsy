@@ -1,21 +1,18 @@
-'use strict';
+"use strict";
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _styles = require('./styles');
+var _react = require('./react');
 
-var _styles2 = _interopRequireDefault(_styles);
-
-console.log((0, _styles2['default'])(3));
-//
+var _react2 = _interopRequireDefault(_react);
 
 var PulsyUnderlay = (function (_React$Component) {
   _inherits(PulsyUnderlay, _React$Component);
@@ -23,28 +20,20 @@ var PulsyUnderlay = (function (_React$Component) {
   function PulsyUnderlay() {
     _classCallCheck(this, PulsyUnderlay);
 
-    _get(Object.getPrototypeOf(PulsyUnderlay.prototype), 'constructor', this).apply(this, arguments);
+    _get(Object.getPrototypeOf(PulsyUnderlay.prototype), "constructor", this).apply(this, arguments);
   }
 
   _createClass(PulsyUnderlay, [{
-    key: 'render',
+    key: "render",
     value: function render() {
-      var style = {
-        background: 'rgba(76,147,234,0.5)',
-        zIndex: '9998',
-        position: 'absolute',
-        left: '0',
-        top: '0',
-        width: '100vw',
-        height: '100vh'
-      };
-      var underlay = this.props.pulsyObj.showUnderlay ? style : null;
-      return React.createElement('div', { style: underlay, onClick: this.props.toggleTooltip });
+      return _react2["default"].createElement("div", {
+        style: styles.underlay,
+        onClick: this.props.toggleTooltip });
     }
   }]);
 
   return PulsyUnderlay;
-})(React.Component);
+})(_react2["default"].Component);
 
 var PulsyTooltip = (function (_React$Component2) {
   _inherits(PulsyTooltip, _React$Component2);
@@ -52,70 +41,47 @@ var PulsyTooltip = (function (_React$Component2) {
   function PulsyTooltip() {
     _classCallCheck(this, PulsyTooltip);
 
-    _get(Object.getPrototypeOf(PulsyTooltip.prototype), 'constructor', this).apply(this, arguments);
+    _get(Object.getPrototypeOf(PulsyTooltip.prototype), "constructor", this).apply(this, arguments);
   }
 
   _createClass(PulsyTooltip, [{
-    key: 'render',
+    key: "render",
     value: function render() {
-      var po = this.props.pulsyObj;
-      var coor = po.coordinates;
-      var ptv = po.tooltip.positionTop;
-      var pth = po.tooltip.positionLeft;
-      var positionFixed = po.positionFixed;
+      var po = this.props.pulsyObj,
+          coordinates = po.dot.coordinates,
+          offset = options.tooltip.offset,
+          positionFixed = po.positionFixed;
       var style = {
-        pulsyTooltip: {
-          minWidth: '200px',
-          minHeight: '35px',
-          background: '#eee',
-          position: 'absolute',
-          top: positionFixed ? (coor.top + coor.bottom) / 2 + ptv : (coor.top + coor.bottom) / 2 + window.scrollY + ptv,
-          left: positionFixed ? (coor.left + coor.right) / 2 + pth : (coor.left + coor.right) / 2 + window.scrollX + pth,
-          transform: 'translate(-50%,0)',
-          padding: po.tooltip.padding,
-          textAlign: 'left',
-          borderRadius: '2px',
-          zIndex: '9999',
-          ':hover': {
-            background: '#ddd'
-          }
-        },
-        closeTooltip: {
-          color: '#333',
-          transform: 'translate(-50%, -5%) rotate(-45deg)',
-          position: 'absolute',
-          top: '0',
-          right: '0',
-          fontSize: '20px',
-          fontFamily: 'sans-serif',
-          fontWeight: '300',
-          cursor: 'pointer'
-        }
+        top: po.dot.fixed ? (coordinates.top + coordinates.bottom) / 2 + offset.top : (coordinates.top + coordinates.bottom) / 2 + window.scrollY + offset.top,
+        left: po.dot.fixed ? (coordinates.left + coordinates.right) / 2 + offset.left : (coordinates.left + coordinates.right) / 2 + window.scrollX + offset.left
       };
-      return React.createElement(
-        'div',
-        { style: style.pulsyTooltip },
-        React.createElement(
-          'div',
+      for (var key in styles.tooltip.container) {
+        style[key] = styles.tooltip.container[key];
+      }
+      return _react2["default"].createElement(
+        "div",
+        { style: style },
+        _react2["default"].createElement(
+          "div",
           null,
-          po.tooltip.tooltipNote
+          options.tooltip.content.header
         ),
-        React.createElement(
-          'div',
+        _react2["default"].createElement(
+          "div",
           null,
-          po.tooltip.tooltipCustom
+          options.tooltip.content.note
         ),
-        React.createElement(
-          'div',
-          { style: style.closeTooltip, onClick: this.props.toggleUnderlay },
-          ' + '
+        _react2["default"].createElement(
+          "div",
+          { style: styles.tooltip.close, onClick: this.props.toggleUnderlay },
+          " + "
         )
       );
     }
   }]);
 
   return PulsyTooltip;
-})(React.Component);
+})(_react2["default"].Component);
 
 var PulsyDot = (function (_React$Component3) {
   _inherits(PulsyDot, _React$Component3);
@@ -123,82 +89,72 @@ var PulsyDot = (function (_React$Component3) {
   function PulsyDot(props) {
     _classCallCheck(this, PulsyDot);
 
-    _get(Object.getPrototypeOf(PulsyDot.prototype), 'constructor', this).call(this, props);
+    _get(Object.getPrototypeOf(PulsyDot.prototype), "constructor", this).call(this, props);
     this.state = {
       showTooltip: false,
-      dotClicked: this.props.pulsyObj.dotClicked || localStorage.getItem("dotClicked" + this.props.pulsyObj.dotId)
+      dotClicked: this.props.pulsyObj.dot.clicked || localStorage.getItem("dotClicked" + this.props.pulsyObj.dot.id)
     };
   }
 
   _createClass(PulsyDot, [{
-    key: 'dotClick',
+    key: "dotClick",
     value: function dotClick() {
       this.setState({
         showTooltip: !this.state.showTooltip,
         dotClicked: !this.state.dotClicked
       });
-      this.props.pulsyObj.dotClicked = !this.state.dotClicked;
-      localStorage.setItem("dotClicked" + this.props.pulsyObj.dotId, true);
+      this.props.pulsyObj.dot.clicked = !this.state.dotClicked;
+      localStorage.setItem("dotClicked" + this.props.pulsyObj.dot.id, true);
       this.props.toggleUnderlay;
     }
   }, {
-    key: 'toggleTooltip',
+    key: "toggleTooltip",
     value: function toggleTooltip() {
       this.setState({
         showTooltip: false
       });
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var po = this.props.pulsyObj;
-      var coordinates = po.coordinates;
-      var pdv = po.dot.positionTop;
-      var pdh = po.dot.positionLeft;
+      var po = this.props.pulsyObj,
+          coordinates = po.dot.coordinates,
+          offset = options.dot.offset;
       var style = {
-        pulsyDot: {
-          top: po.positionFixed ? (coordinates.top + coordinates.bottom) / 2 : (coordinates.top + coordinates.bottom) / 2 + pdv + window.scrollY,
-          left: po.positionFixed ? (coordinates.left + coordinates.right) / 2 : (coordinates.left + coordinates.right) / 2 + pdh + window.scrollX,
-          position: 'absolute',
-          display: 'inline-block',
-          width: po.dot.dotSize,
-          height: po.dot.dotSize,
-          transform: 'translate(-50%,-50%)',
-          background: 'rgba(255,255,255,0.5)',
-          borderRadius: '100%',
-          cursor: 'pointer',
-          zIndex: '9997',
-          position: po.positionFixed ? 'fixed' : 'absolute'
+        pulsyBack: {
+          top: po.dot.fixed ? (coordinates.top + coordinates.bottom) / 2 : (coordinates.top + coordinates.bottom) / 2 + offset.top + window.scrollY,
+          left: po.dot.fixed ? (coordinates.left + coordinates.right) / 2 : (coordinates.left + coordinates.right) / 2 + offset.left + window.scrollX,
+          width: styles.dot.back.size,
+          height: styles.dot.back.size,
+          position: po.dot.fixed ? 'fixed' : 'absolute'
         },
         pulsyFront: {
-          position: 'absolute',
-          display: 'inline-block',
-          width: '50px',
-          height: '50px',
-          background: 'rgba(255,255,255,0.8)',
-          borderRadius: '100%',
+          width: styles.dot.front.size,
+          height: styles.dot.front.size,
           left: '50%',
-          top: '50%',
-          transform: 'translate(-50%,-50%)',
-          cursor: 'pointer',
-          zIndex: '9999',
-          position: this.props.positionFixed ? 'fixed' : 'absolute'
+          top: '50%'
         }
       };
+      for (var key in styles.dot) {
+        style.pulsyBack[key] = styles.dot[key];
+      }
+      for (var key in styles.dot) {
+        style.pulsyFront[key] = styles.dot[key];
+      }
       var pulseName = "pulse-" + this.props.dotId;
-      var dot = !this.state.dotClicked ? React.createElement(
-        'div',
-        { style: style.pulsyDot, onClick: this.dotClick.bind(this), className: pulseName },
-        React.createElement('div', { style: style.pulsyFront, className: 'spinner' })
+      var dot = !this.state.dotClicked ? _react2["default"].createElement(
+        "div",
+        { style: style.pulsyBack, onClick: this.dotClick.bind(this), className: pulseName },
+        _react2["default"].createElement("div", { style: style.pulsyFront, className: "spinner" })
       ) : null;
-      var tooltip = this.state.showTooltip ? React.createElement(
-        'div',
+      var tooltip = this.state.showTooltip ? _react2["default"].createElement(
+        "div",
         null,
-        React.createElement(PulsyTooltip, { pulsyObj: this.props.pulsyObj, toggleUnderlay: this.toggleTooltip.bind(this) }),
-        React.createElement(PulsyUnderlay, { toggleTooltip: this.toggleTooltip.bind(this), pulsyObj: this.props.pulsyObj })
+        _react2["default"].createElement(PulsyTooltip, { pulsyObj: this.props.pulsyObj, toggleUnderlay: this.toggleTooltip.bind(this) }),
+        _react2["default"].createElement(PulsyUnderlay, { toggleTooltip: this.toggleTooltip.bind(this), pulsyObj: this.props.pulsyObj })
       ) : null;
-      return React.createElement(
-        'div',
+      return _react2["default"].createElement(
+        "div",
         null,
         dot,
         tooltip
@@ -207,7 +163,7 @@ var PulsyDot = (function (_React$Component3) {
   }]);
 
   return PulsyDot;
-})(React.Component);
+})(_react2["default"].Component);
 
 var PulsyTour = (function (_React$Component4) {
   _inherits(PulsyTour, _React$Component4);
@@ -215,7 +171,7 @@ var PulsyTour = (function (_React$Component4) {
   function PulsyTour(props) {
     _classCallCheck(this, PulsyTour);
 
-    _get(Object.getPrototypeOf(PulsyTour.prototype), 'constructor', this).call(this, props);
+    _get(Object.getPrototypeOf(PulsyTour.prototype), "constructor", this).call(this, props);
     this.state = {
       showTooltip: false
     };
@@ -224,109 +180,199 @@ var PulsyTour = (function (_React$Component4) {
   // CREATE ARRAY OF PULSY ANCHORS
 
   _createClass(PulsyTour, [{
-    key: 'resetStorage',
+    key: "resetStorage",
     value: function resetStorage() {
       localStorage.clear();
     }
   }, {
-    key: 'toggleUnderlay',
+    key: "toggleUnderlay",
     value: function toggleUnderlay() {
       this.setState({
         showUnderlay: !this.state.showUnderlay
       });
     }
   }, {
-    key: 'closeTooltip',
+    key: "closeTooltip",
     value: function closeTooltip() {
       this.setState({
         showTooltip: !this.state.showTooltip
       });
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var style = {
-        zIndex: '9999',
-        position: 'absolute',
-        resetButton: {
-          width: '150px',
-          height: '50px',
-          borderRadius: '2px',
-          background: '#555',
-          left: '100px',
-          top: '65vh',
-          position: 'absolute',
-          border: 'none',
-          cursor: 'pointer',
-          outline: 'none'
-        }
-      };
       var pulsyLength = pulsyAnchors.length;
       var dots = [];
       for (var i = 0; i < pulsyLength; i++) {
-        dots.push(React.createElement(PulsyDot, {
+        dots.push(_react2["default"].createElement(PulsyDot, {
           showTooltip: this.state.showTooltip,
-          pulsyObj: this.props.pulsyUtilities[i]
+          pulsyObj: this.props.pulsyInit[i]
         }));
       }
-      return React.createElement(
-        'div',
-        { style: style },
+      return _react2["default"].createElement(
+        "div",
+        { style: styles.tour },
         dots,
-        React.createElement(
-          'button',
-          { style: style.resetButton, onClick: this.resetStorage.bind(this) },
-          'Reset Storage'
+        _react2["default"].createElement(
+          "button",
+          { style: styles.resetButton, onClick: this.resetStorage.bind(this) },
+          "Reset Storage"
         )
       );
     }
   }]);
 
   return PulsyTour;
-})(React.Component);
+})(_react2["default"].Component);
 
-var pulsyAnchors = document.getElementsByClassName('anchor');
-var pulsyUtilities = [];
+var pulsyInit = [],
+    pulsyAnchors = document.getElementsByClassName('anchor');
 function findAnchors() {
   for (var i = 0; i < pulsyAnchors.length; i++) {
-    var anchorStyles = window.getComputedStyle(pulsyAnchors[i], null);
-    pulsyUtilities[i] = {
-      dotId: i,
-      dotClicked: false,
-      coordinates: pulsyAnchors[i].getBoundingClientRect(),
-      showUnderlay: true,
-      positionFixed: anchorStyles.getPropertyValue('position') === "fixed",
-      tooltip: {
-        tooltipHeader: 'Default header',
-        tooltipNote: 'Default note',
-        tooltipCustom: 'Add your custom HTML here.',
-        positionLeft: 0,
-        positionTop: 0,
-        transition: false,
-        padding: 15
-      },
+    var anchorStyles = window.getComputedStyle(pulsyAnchors[i], null),
+        pulsyHeader = pulsyAnchors[i].getAttribute('data-pulsy-header'),
+        pulsyNote = pulsyAnchors[i].getAttribute('data-pulsy-note');
+    pulsyInit[i] = {
       dot: {
-        positionLeft: 0,
-        positionTop: 0,
-        transition: false,
-        dotSize: 30
+        id: i,
+        clicked: false,
+        coordinates: pulsyAnchors[i].getBoundingClientRect(),
+        fixed: anchorStyles.getPropertyValue('position') === "fixed"
+      },
+      tooltip: {
+        tooltipHeader: pulsyHeader ? pulsyHeader : options.tooltip.content.header,
+        tooltipNote: pulsyNote ? pulsyNote : options.tooltip.content.note
       }
     };
   }
 }
 
-findAnchors();
-var pulsyTour = React.createElement(PulsyTour, { pulsyUtilities: pulsyUtilities });
-
-// RENDER ROOT COMPONENT
-React.render(pulsyTour, document.getElementById('pulsy-tour'));
-
-window.onresize = function renderResize() {
-  findAnchors();
-  React.render(pulsyTour, document.getElementById('pulsy-tour'));
+var options = {
+  storage: 'local',
+  ordered: false,
+  keybardNav: true,
+  dot: {
+    animation: 'default',
+    offset: {
+      left: 0,
+      top: 0
+    }
+  },
+  tooltip: {
+    edgeSense: true,
+    animation: 'default',
+    direction: 'above',
+    close: true,
+    next: {
+      display: true,
+      label: 'Next'
+    },
+    next: {
+      display: false,
+      label: 'Exit tour'
+    },
+    content: {
+      header: 'Default header',
+      note: 'Default note'
+    },
+    offset: {
+      left: 0,
+      top: 0
+    }
+  },
+  callbacks: {
+    tourComplete: null,
+    stepComplete: null,
+    optOut: null
+  }
 };
 
-window.onscroll = function renderScroll() {
+var styles = {
+  tour: {
+    zIndex: '9999',
+    position: 'absolute'
+  },
+  dot: {
+    position: 'absolute',
+    display: 'inline-block',
+    transform: 'translate(-50%,-50%)',
+    background: 'rgba(255,255,255,0.5)',
+    borderRadius: '100%',
+    cursor: 'pointer',
+    zIndex: '9997',
+    back: {
+      size: 30
+    },
+    front: {
+      size: 50
+    }
+  },
+  tooltip: {
+    container: {
+      padding: 15,
+      background: '#eee',
+      minWidth: 200,
+      minHeight: 35,
+      position: 'absolute',
+      textAlign: 'left',
+      borderRadius: '2px',
+      transform: 'translate(-50%,0)',
+      zIndex: '9999'
+    },
+    close: {
+      color: '#333',
+      transform: 'translate(-50%, -5%) rotate(-45deg)',
+      position: 'absolute',
+      top: '0',
+      right: '0',
+      fontSize: '20px',
+      fontFamily: 'sans-serif',
+      fontWeight: '300',
+      cursor: 'pointer'
+    },
+    next: {
+      display: 'block'
+    },
+    optOut: {
+      display: 'block'
+    }
+  },
+  underlay: {
+    background: 'rgba(76,147,234,0.5)',
+    zIndex: '9998',
+    position: 'absolute',
+    left: '0',
+    top: '0',
+    width: '100vw',
+    height: '100vh'
+  },
+  resetButton: {
+    width: '150px',
+    height: '50px',
+    borderRadius: '2px',
+    background: '#555',
+    left: '100px',
+    top: '65vh',
+    position: 'absolute',
+    border: 'none',
+    cursor: 'pointer',
+    outline: 'none'
+  }
+};
+
+var pulsyTour = _react2["default"].createElement(PulsyTour, { pulsyInit: pulsyInit });
+
+// RENDER ROOT COMPONENT
+function pulsy() {
   findAnchors();
-  React.render(pulsyTour, document.getElementById('pulsy-tour'));
+  _react2["default"].render(pulsyTour, document.getElementById('pulsy-tour'));
+}
+
+pulsy();
+
+window.onresize = function renderResize() {
+  pulsy();
+};
+window.onscroll = function renderScroll() {
+  pulsy();
 };

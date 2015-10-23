@@ -1,70 +1,38 @@
-import cube from './styles';
-console.log(cube(3));
-//
+import React from './react'
 
 class PulsyUnderlay extends React.Component {
   render() {
-    var style = {
-      background: 'rgba(76,147,234,0.5)',
-      zIndex: '9998',
-      position: 'absolute',
-      left: '0',
-      top: '0',
-      width: '100vw',
-      height: '100vh',
-    }
-    var underlay = this.props.pulsyObj.showUnderlay ? style : null;
     return (
-        <div style={underlay} onClick={this.props.toggleTooltip}></div>
+        <div
+          style={styles.underlay}
+          onClick={this.props.toggleTooltip}>
+        </div>
     );
   }
 }
 
 class PulsyTooltip extends React.Component{
   render() {
-    var po = this.props.pulsyObj;
-    var coor = po.coordinates;
-    var ptv = po.tooltip.positionTop;
-    var pth = po.tooltip.positionLeft;
-    var positionFixed = po.positionFixed;
+    var po = this.props.pulsyObj,
+        coordinates = po.dot.coordinates,
+        offset = options.tooltip.offset,
+        positionFixed = po.positionFixed;
     var style = {
-      pulsyTooltip: {
-        minWidth: '200px',
-        minHeight: '35px',
-        background: '#eee',
-        position: 'absolute',
-        top: positionFixed ?
-          (coor.top + coor.bottom)/2 + ptv :
-          (coor.top + coor.bottom)/2 + window.scrollY + ptv,
-        left: positionFixed ?
-          (coor.left + coor.right)/2 + pth :
-          (coor.left + coor.right)/2 + window.scrollX + pth,
-        transform: 'translate(-50%,0)',
-        padding: po.tooltip.padding,
-        textAlign: 'left',
-        borderRadius: '2px',
-        zIndex: '9999',
-        ':hover': {
-          background: '#ddd'
-        }
-      },
-      closeTooltip: {
-        color: '#333',
-        transform: 'translate(-50%, -5%) rotate(-45deg)',
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        fontSize: '20px',
-        fontFamily: 'sans-serif',
-        fontWeight: '300',
-        cursor: 'pointer',
+        top: po.dot.fixed ?
+          (coordinates.top + coordinates.bottom)/2 + offset.top :
+          (coordinates.top + coordinates.bottom)/2 + window.scrollY + offset.top,
+        left: po.dot.fixed ?
+          (coordinates.left + coordinates.right)/2 + offset.left :
+          (coordinates.left + coordinates.right)/2 + window.scrollX + offset.left,
       }
+    for (var key in styles.tooltip.container) {
+      style[key] = styles.tooltip.container[key];
     }
     return (
-      <div style={style.pulsyTooltip}>
-        <div>{po.tooltip.tooltipNote}</div>
-        <div>{po.tooltip.tooltipCustom}</div>
-        <div style={style.closeTooltip} onClick={this.props.toggleUnderlay}> + </div>
+      <div style={style}>
+        <div>{options.tooltip.content.header}</div>
+        <div>{options.tooltip.content.note}</div>
+        <div style={styles.tooltip.close} onClick={this.props.toggleUnderlay}> + </div>
       </div>
     );
   }
@@ -75,7 +43,7 @@ class PulsyDot extends React.Component {
     super(props);
     this.state = {
       showTooltip: false,
-      dotClicked: this.props.pulsyObj.dotClicked || localStorage.getItem("dotClicked" + this.props.pulsyObj.dotId),
+      dotClicked: this.props.pulsyObj.dot.clicked || localStorage.getItem("dotClicked" + this.props.pulsyObj.dot.id),
     }
   }
   dotClick() {
@@ -83,8 +51,8 @@ class PulsyDot extends React.Component {
       showTooltip: !this.state.showTooltip,
       dotClicked: !this.state.dotClicked,
     });
-    this.props.pulsyObj.dotClicked = !this.state.dotClicked;
-    localStorage.setItem("dotClicked" + this.props.pulsyObj.dotId, true);
+    this.props.pulsyObj.dot.clicked = !this.state.dotClicked;
+    localStorage.setItem("dotClicked" + this.props.pulsyObj.dot.id, true);
     this.props.toggleUnderlay;
   }
   toggleTooltip() {
@@ -93,49 +61,39 @@ class PulsyDot extends React.Component {
     });
   }
   render() {
-    var po = this.props.pulsyObj;
-    var coordinates = po.coordinates;
-    var pdv = po.dot.positionTop;
-    var pdh = po.dot.positionLeft;
+    var po = this.props.pulsyObj,
+        coordinates = po.dot.coordinates,
+        offset = options.dot.offset;
     var style = {
-      pulsyDot: {
-        top: po.positionFixed ? (coordinates.top + coordinates.bottom)/2 : (coordinates.top + coordinates.bottom)/2 + pdv + window.scrollY,
-        left: po.positionFixed ? (coordinates.left + coordinates.right)/2 : (coordinates.left + coordinates.right)/2 + pdh + window.scrollX,
-        position: 'absolute',
-        display: 'inline-block',
-        width: po.dot.dotSize,
-        height: po.dot.dotSize,
-        transform: 'translate(-50%,-50%)',
-        background: 'rgba(255,255,255,0.5)',
-        borderRadius: '100%',
-        cursor: 'pointer',
-        zIndex: '9997',
-        position: po.positionFixed ? 'fixed' : 'absolute',
+      pulsyBack: {
+        top: po.dot.fixed ? (coordinates.top + coordinates.bottom)/2 : (coordinates.top + coordinates.bottom)/2 + offset.top + window.scrollY,
+        left: po.dot.fixed ? (coordinates.left + coordinates.right)/2 : (coordinates.left + coordinates.right)/2 + offset.left + window.scrollX,
+        width: styles.dot.back.size,
+        height: styles.dot.back.size,
+        position: po.dot.fixed ? 'fixed' : 'absolute',
       },
       pulsyFront: {
-        position: 'absolute',
-        display: 'inline-block',
-        width: '50px',
-        height: '50px',
-        background: 'rgba(255,255,255,0.8)',
-        borderRadius: '100%',
+        width: styles.dot.front.size,
+        height: styles.dot.front.size,
         left: '50%',
         top: '50%',
-        transform: 'translate(-50%,-50%)',
-        cursor: 'pointer',
-        zIndex: '9999',
-        position: this.props.positionFixed ? 'fixed' : 'absolute',
       }
+    }
+    for (var key in styles.dot) {
+      style.pulsyBack[key] = styles.dot[key];
+    }
+    for (var key in styles.dot) {
+      style.pulsyFront[key] = styles.dot[key];
     }
     var pulseName = "pulse-" + this.props.dotId;
     var dot = !this.state.dotClicked ?
-      <div style={style.pulsyDot} onClick={this.dotClick.bind(this)} className={pulseName}>
+      <div style={style.pulsyBack} onClick={this.dotClick.bind(this)} className={pulseName}>
         <div style={style.pulsyFront} className="spinner"></div>
       </div> :
       null;
     var tooltip = this.state.showTooltip ?
       <div>
-        <PulsyTooltip pulsyObj={this.props.pulsyObj} toggleUnderlay={this.toggleTooltip.bind(this)} />
+          <PulsyTooltip pulsyObj={this.props.pulsyObj} toggleUnderlay={this.toggleTooltip.bind(this)} />
         <PulsyUnderlay toggleTooltip={this.toggleTooltip.bind(this)} pulsyObj={this.props.pulsyObj} />
       </div> :
       null;
@@ -169,83 +127,172 @@ class PulsyTour extends React.Component {
     });
   }
   render() {
-    var style = {
-      zIndex: '9999',
-      position: 'absolute',
-      resetButton: {
-        width: '150px',
-        height: '50px',
-        borderRadius: '2px',
-        background: '#555',
-        left: '100px',
-        top: '65vh',
-        position: 'absolute',
-        border: 'none',
-        cursor: 'pointer',
-        outline: 'none',
-      },
-    }
     let pulsyLength = pulsyAnchors.length;
     var dots = [];
     for (var i=0;i<pulsyLength;i++) {
       dots.push(<PulsyDot
         showTooltip={this.state.showTooltip}
-        pulsyObj={this.props.pulsyUtilities[i]}
+        pulsyObj={this.props.pulsyInit[i]}
       />);
     }
     return (
-      <div style={style}>
+      <div style={styles.tour}>
         {dots}
-        <button style={style.resetButton} onClick={this.resetStorage.bind(this)}>Reset Storage</button>
+        <button style={styles.resetButton} onClick={this.resetStorage.bind(this)}>Reset Storage</button>
       </div>
     )
   }
 }
 
-
 // CREATE ARRAY OF PULSY ANCHORS
-var pulsyAnchors = document.getElementsByClassName('anchor');
-var pulsyUtilities = [];
+var pulsyInit = [],
+    pulsyAnchors = document.getElementsByClassName('anchor');
 function findAnchors() {
   for (var i=0;i<pulsyAnchors.length;i++) {
-    var anchorStyles = window.getComputedStyle(pulsyAnchors[i],null);
-    pulsyUtilities[i] = {
-      dotId: i,
-      dotClicked: false,
-      coordinates: pulsyAnchors[i].getBoundingClientRect(),
-      showUnderlay: true,
-      positionFixed: anchorStyles.getPropertyValue('position') === "fixed",
-      tooltip: {
-        tooltipHeader: 'Default header',
-        tooltipNote: 'Default note',
-        tooltipCustom: 'Add your custom HTML here.',
-        positionLeft: 0,
-        positionTop: 0,
-        transition: false,
-        padding: 15,
-      },
+    var anchorStyles = window.getComputedStyle(pulsyAnchors[i],null),
+        pulsyHeader = pulsyAnchors[i].getAttribute('data-pulsy-header'),
+        pulsyNote = pulsyAnchors[i].getAttribute('data-pulsy-note');
+    pulsyInit[i] = {
       dot: {
-        positionLeft: 0,
-        positionTop: 0,
-        transition: false,
-        dotSize: 30,
+        id: i,
+        clicked: false,
+        coordinates: pulsyAnchors[i].getBoundingClientRect(),
+        fixed: anchorStyles.getPropertyValue('position') === "fixed",
       },
+      tooltip: {
+        tooltipHeader: pulsyHeader ? pulsyHeader : options.tooltip.content.header,
+        tooltipNote: pulsyNote ? pulsyNote : options.tooltip.content.note,
+      }
     }
   }
 }
 
-findAnchors();
-var pulsyTour = <PulsyTour pulsyUtilities={pulsyUtilities} />
+var options = {
+  storage: 'local',
+  ordered: false,
+  keybardNav: true,
+  dot: {
+    animation: 'default',
+    offset: {
+      left: 0,
+      top: 0,
+    },
+  },
+  tooltip: {
+    edgeSense: true,
+    animation: 'default',
+    direction: 'above',
+    close: true,
+    next: {
+      display: true,
+      label: 'Next',
+    },
+    next: {
+      display: false,
+      label: 'Exit tour',
+    },
+    content: {
+      header: 'Default header',
+      note: 'Default note',
+    },
+    offset: {
+      left: 0,
+      top: 0,
+    },
+  },
+  callbacks: {
+    tourComplete: null,
+    stepComplete: null,
+    optOut: null,
+  }
+}
+
+var styles = {
+  tour: {
+    zIndex: '9999',
+    position: 'absolute',
+  },
+  dot: {
+    position: 'absolute',
+    display: 'inline-block',
+    transform: 'translate(-50%,-50%)',
+    background: 'rgba(255,255,255,0.5)',
+    borderRadius: '100%',
+    cursor: 'pointer',
+    zIndex: '9997',
+    back: {
+      size: 30,
+    },
+    front: {
+      size: 50,
+    },
+  },
+  tooltip: {
+    container: {
+      padding: 15,
+      background: '#eee',
+      minWidth: 200,
+      minHeight: 35,
+      position: 'absolute',
+      textAlign: 'left',
+      borderRadius: '2px',
+      transform: 'translate(-50%,0)',
+      zIndex: '9999',
+    },
+    close: {
+      color: '#333',
+      transform: 'translate(-50%, -5%) rotate(-45deg)',
+      position: 'absolute',
+      top: '0',
+      right: '0',
+      fontSize: '20px',
+      fontFamily: 'sans-serif',
+      fontWeight: '300',
+      cursor: 'pointer',
+    },
+    next: {
+      display: 'block',
+    },
+    optOut: {
+      display: 'block',
+    },
+  },
+  underlay: {
+    background: 'rgba(76,147,234,0.5)',
+    zIndex: '9998',
+    position: 'absolute',
+    left: '0',
+    top: '0',
+    width: '100vw',
+    height: '100vh',
+  },
+  resetButton: {
+    width: '150px',
+    height: '50px',
+    borderRadius: '2px',
+    background: '#555',
+    left: '100px',
+    top: '65vh',
+    position: 'absolute',
+    border: 'none',
+    cursor: 'pointer',
+    outline: 'none',
+  }
+}
+
+var pulsyTour = <PulsyTour pulsyInit={pulsyInit} />
 
 // RENDER ROOT COMPONENT
-React.render(pulsyTour, document.getElementById('pulsy-tour'));
-
-window.onresize = function renderResize() {
+function pulsy() {
   findAnchors();
   React.render(pulsyTour, document.getElementById('pulsy-tour'));
 }
 
+pulsy();
+
+window.onresize = function renderResize() {
+  pulsy();
+}
 window.onscroll = function renderScroll() {
-  findAnchors();
-  React.render(pulsyTour, document.getElementById('pulsy-tour'));
+  pulsy();
 }
