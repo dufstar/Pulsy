@@ -1,8 +1,6 @@
-import React from './react'
-import Velocity from './velocity'
-import {VelocityComponent, VelocityTransitionGroup} from 'velocity-react';
-
-// Velocity(document.getElementById("pulsy-tour"), { opacity: 0.5 }, { duration: 1000 });
+import React from 'react'
+import ReactDOM from 'react-dom'
+import VelocityReact from 'velocity-react'
 
 class PulsyUnderlay extends React.Component {
   render() {
@@ -32,14 +30,13 @@ class PulsyTooltip extends React.Component{
     for (var key in styles.tooltip.container) {
       style[key] = styles.tooltip.container[key];
     }
+    var fadeMeDown = Velocity(document.getElementById("tool"), { opacity: 0.5 }, { duration: 1000 });
     return (
-      <VelocityComponent animation={{ opacity: 0.5 }} duration={1500}>
-      <div style={style}>
+      <div id="tool" style={style} onMouseLeave={console.log('yebo')}>
         <div>{options.tooltip.content.header}</div>
         <div>{options.tooltip.content.note}</div>
         <div style={styles.tooltip.close} onClick={this.props.toggleUnderlay}> + </div>
       </div>
-      </VelocityComponent>
     );
   }
 }
@@ -136,7 +133,7 @@ class PulsyTour extends React.Component {
     let pulsyLength = pulsyAnchors.length;
     var dots = [];
     for (var i=0;i<pulsyLength;i++) {
-      dots.push(<PulsyDot
+      dots.push(<PulsyDot key={Math.random()}
         showTooltip={this.state.showTooltip}
         pulsyObj={this.props.pulsyInit[i]}
       />);
@@ -291,14 +288,13 @@ var pulsyTour = <PulsyTour pulsyInit={pulsyInit} />
 // RENDER ROOT COMPONENT
 function pulsy() {
   findAnchors();
-  React.render(pulsyTour, document.getElementById('pulsy-tour'));
+  ReactDOM.render(pulsyTour, document.getElementById('pulsy-tour'));
 }
-
-pulsy();
-
 window.onresize = function renderResize() {
   pulsy();
 }
 window.onscroll = function renderScroll() {
   pulsy();
 }
+
+pulsy();

@@ -75,8 +75,6 @@ pulsyUtilities API
 - ability to run pulsyTours by className - tour groups, so to speak
 - for ordered tours, ability to declare which step you would like to start from
 
-// <VelocityComponent animation={{ opacity: this.state.showTooltip ? 1 : 0 }} duration={500}>
-// </VelocityComponent>
 
 
 pulsyUtilities
