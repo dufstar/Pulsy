@@ -26,13 +26,13 @@ gulp.task('styles', function() {
 });
 
 gulp.task('scripts', function() {
-  return gulp.src('src/scripts/*.js')
-    .pipe(babel())
+  return gulp.src('src/scripts/*')
     .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('browserify', ['scripts'], function() {
   return gulp.src('dist/js/pulsy.js')
+  .pipe(babel())
   .pipe(browserify())
   .pipe(rename('bundle.js'))
   .pipe(gulp.dest('dist/js'))

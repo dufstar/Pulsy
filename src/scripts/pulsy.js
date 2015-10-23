@@ -1,4 +1,8 @@
 import React from './react'
+import Velocity from './velocity'
+import {VelocityComponent, VelocityTransitionGroup} from 'velocity-react';
+
+// Velocity(document.getElementById("pulsy-tour"), { opacity: 0.5 }, { duration: 1000 });
 
 class PulsyUnderlay extends React.Component {
   render() {
@@ -29,11 +33,13 @@ class PulsyTooltip extends React.Component{
       style[key] = styles.tooltip.container[key];
     }
     return (
+      <VelocityComponent animation={{ opacity: 0.5 }} duration={1500}>
       <div style={style}>
         <div>{options.tooltip.content.header}</div>
         <div>{options.tooltip.content.note}</div>
         <div style={styles.tooltip.close} onClick={this.props.toggleUnderlay}> + </div>
       </div>
+      </VelocityComponent>
     );
   }
 }

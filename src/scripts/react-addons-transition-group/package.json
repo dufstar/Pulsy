@@ -1,0 +1,36 @@
+{
+  "name": "react-addons-transition-group",
+  "version": "0.14.0",
+  "main": "index.js",
+  "license": "BSD-3-Clause",
+  "peerDependencies": {
+    "react": "^0.14.0"
+  },
+  "description": "This package provides the React TransitionGroup add-on. See http://facebook.github.io/react/docs/addons.html for more information.",
+  "_id": "react-addons-transition-group@0.14.0",
+  "_shasum": "1cd325fa8a4fc18bb5df1d79aebbae9f3cd582e8",
+  "_resolved": "https://registry.npmjs.org/react-addons-transition-group/-/react-addons-transition-group-0.14.0.tgz",
+  "_from": "react-addons-transition-group@>=0.14.0 <0.15.0",
+  "scripts": {},
+  "_npmVersion": "2.14.3",
+  "_nodeVersion": "4.1.0",
+  "_npmUser": {
+    "name": "zpao",
+    "email": "paul@oshannessy.com"
+  },
+  "maintainers": [
+    {
+      "name": "spicyj",
+      "email": "ben@benalpert.com"
+    },
+    {
+      "name": "zpao",
+      "email": "paul@oshannessy.com"
+    }
+  ],
+  "dist": {
+    "shasum": "1cd325fa8a4fc18bb5df1d79aebbae9f3cd582e8",
+    "tarball": "http://registry.npmjs.org/react-addons-transition-group/-/react-addons-transition-group-0.14.0.tgz"
+  },
+  "directories": {}
+}

@@ -32,14 +32,12 @@ Statics
 Inspired by https://gist.github.com/tkafka/0d94c6ec94297bb67091
 */
 
-'use strict';
-
 var _ = {
   each: require('lodash/collection/each'),
   extend: require('lodash/object/extend'),
   keys: require('lodash/object/keys'),
   omit: require('lodash/object/omit'),
-  pluck: require('lodash/collection/pluck')
+  pluck: require('lodash/collection/pluck'),
 };
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -55,60 +53,60 @@ var VelocityTransitionGroupChild = React.createClass({
     children: React.PropTypes.element.isRequired,
     willAppearFunc: React.PropTypes.func.isRequired,
     willEnterFunc: React.PropTypes.func.isRequired,
-    willLeaveFunc: React.PropTypes.func.isRequired
+    willLeaveFunc: React.PropTypes.func.isRequired,
   },
 
-  componentWillAppear: function componentWillAppear(doneFn) {
+  componentWillAppear: function (doneFn) {
     this.props.willAppearFunc(ReactDOM.findDOMNode(this), doneFn);
   },
 
-  componentWillEnter: function componentWillEnter(doneFn) {
+  componentWillEnter: function (doneFn) {
     this.props.willEnterFunc(ReactDOM.findDOMNode(this), doneFn);
   },
 
-  componentWillLeave: function componentWillLeave(doneFn) {
+  componentWillLeave: function (doneFn) {
     this.props.willLeaveFunc(ReactDOM.findDOMNode(this), doneFn);
   },
 
-  render: function render() {
+  render: function () {
     return React.Children.only(this.props.children);
-  }
+  },
 });
 
 var VelocityTransitionGroup = React.createClass({
   displayName: 'VelocityTransitionGroup',
 
   statics: {
-    disabledForTest: false },
+    disabledForTest: false, // global, mutable, for disabling animations during test
+  },
 
-  // global, mutable, for disabling animations during test
   propTypes: {
     runOnMount: React.PropTypes.bool,
     enter: React.PropTypes.any,
     leave: React.PropTypes.any,
-    children: React.PropTypes.any
+    children: React.PropTypes.any,
   },
 
-  getDefaultProps: function getDefaultProps() {
+  getDefaultProps: function() {
     return {
       runOnMount: false,
       enter: null,
-      leave: null
+      leave: null,
     };
   },
 
-  componentWillMount: function componentWillMount() {
+  componentWillMount: function () {
     this._scheduled = false;
     this._entering = [];
     this._leaving = [];
   },
 
-  componentWillUnmount: function componentWillUnmount() {
+  componentWillUnmount: function () {
     this._entering = [];
     this._leaving = [];
   },
 
-  render: function render() {
+  render: function () {
     // Pass any props that are not our own on into the TransitionGroup delegate.
     var transitionGroupProps = _.omit(this.props, _.keys(this.constructor.propTypes));
 
@@ -121,12 +119,12 @@ var VelocityTransitionGroup = React.createClass({
     return React.createElement(ReactTransitionGroup, transitionGroupProps, this.props.children);
   },
 
-  childWillAppear: function childWillAppear(node, doneFn) {
+  childWillAppear: function (node, doneFn) {
     if (this.props.runOnMount) {
       this.childWillEnter(node, doneFn);
     } else {
       this._finishAnimation(node, this.props.enter);
-
+      
       // Important to tick over so that any callbacks due to finishing the animation complete first.
       // isMounted check necessary to avoid exception in tests, which can mount and unmount a
       // component before this runs over, as the "doneFn" callback does a ref lookup rather than
@@ -142,7 +140,7 @@ var VelocityTransitionGroup = React.createClass({
     }
   },
 
-  childWillEnter: function childWillEnter(node, doneFn) {
+  childWillEnter: function (node, doneFn) {
     if (this._shortCircuitAnimation(this.props.enter, doneFn)) return;
 
     // By finishing a "leave" on the element, we put it in the right state to be animated in. Useful
@@ -156,18 +154,18 @@ var VelocityTransitionGroup = React.createClass({
 
     this._entering.push({
       node: node,
-      doneFn: doneFn
+      doneFn: doneFn,
     });
 
     this._schedule();
   },
 
-  childWillLeave: function childWillLeave(node, doneFn) {
+  childWillLeave: function (node, doneFn) {
     if (this._shortCircuitAnimation(this.props.leave, doneFn)) return;
 
     this._leaving.push({
       node: node,
-      doneFn: doneFn
+      doneFn: doneFn,
     });
 
     this._schedule();
@@ -179,19 +177,19 @@ var VelocityTransitionGroup = React.createClass({
   //
   // Returns true if this did short circuit, false if lifecycle methods should continue with
   // their animations.
-  _shortCircuitAnimation: function _shortCircuitAnimation(animationProp, doneFn) {
-    if (document.hidden || this._parseAnimationProp(animationProp).animation == null) {
+  _shortCircuitAnimation: function (animationProp, doneFn) {
+    if (document.hidden || (this._parseAnimationProp(animationProp).animation == null)) {
       if (this.isMounted()) {
         doneFn();
       }
 
-      return true;
+      return true;      
     } else {
       return false;
     }
   },
 
-  _schedule: function _schedule() {
+  _schedule: function () {
     if (this._scheduled) {
       return;
     }
@@ -203,7 +201,7 @@ var VelocityTransitionGroup = React.createClass({
     window.requestAnimationFrame(this._runAnimations);
   },
 
-  _runAnimations: function _runAnimations() {
+  _runAnimations: function () {
     this._scheduled = false;
 
     this._runAnimation(true, this._entering, this.props.enter);
@@ -215,7 +213,7 @@ var VelocityTransitionGroup = React.createClass({
 
   // Used to parse out the 'enter' and 'leave' properties. Handles cases where they are omitted
   // as well as when they are just strings and not hashes of animation and options.
-  _parseAnimationProp: function _parseAnimationProp(animationProp) {
+  _parseAnimationProp: function (animationProp) {
     var animation, opts, style;
 
     if (typeof animationProp === 'string') {
@@ -223,19 +221,19 @@ var VelocityTransitionGroup = React.createClass({
       style = null;
       opts = {};
     } else {
-      animation = animationProp != null ? animationProp.animation : null;
-      style = animationProp != null ? animationProp.style : null;
+      animation = (animationProp != null) ? animationProp.animation : null;
+      style = (animationProp != null) ? animationProp.style : null;
       opts = _.omit(animationProp, 'animation', 'style');
     }
 
     return {
       animation: animation,
       style: style,
-      opts: opts
+      opts: opts,
     };
   },
 
-  _runAnimation: function _runAnimation(entering, queue, animationProp) {
+  _runAnimation: function (entering, queue, animationProp) {
     if (!this.isMounted() || queue.length === 0) {
       return;
     }
@@ -261,7 +259,7 @@ var VelocityTransitionGroup = React.createClass({
     // Because Safari can synchronously repaint when CSS "display" is reset, we set styles for all
     // browsers before the rAF tick below that starts the animation. This way you know in all
     // cases that you need to support your static styles being visible on the element before
-    // the animation begins.
+    // the animation begins. 
     if (style != null) {
       _.each(style, function (value, key) {
         Velocity.hook(nodes, key, value);
@@ -269,14 +267,12 @@ var VelocityTransitionGroup = React.createClass({
     }
 
     var self = this;
-    var completeFn = function completeFn() {
+    var completeFn = function () {
       if (!self.isMounted()) {
         return;
       }
 
-      doneFns.map(function (doneFn) {
-        doneFn();
-      });
+      doneFns.map(function (doneFn) { doneFn(); });
     };
 
     // For nodes that are entering, we tell the TransitionGroup that we're done with them
@@ -301,7 +297,7 @@ var VelocityTransitionGroup = React.createClass({
     });
   },
 
-  _finishAnimation: function _finishAnimation(node, animationProp) {
+  _finishAnimation: function (node, animationProp) {
     var parsedAnimation = this._parseAnimationProp(animationProp);
     var animation = parsedAnimation.animation;
     var style = parsedAnimation.style;
@@ -322,13 +318,13 @@ var VelocityTransitionGroup = React.createClass({
     }
   },
 
-  _wrapChild: function _wrapChild(child) {
+  _wrapChild: function (child) {
     return React.createElement(VelocityTransitionGroupChild, {
       willAppearFunc: this.childWillAppear,
       willEnterFunc: this.childWillEnter,
-      willLeaveFunc: this.childWillLeave
+      willLeaveFunc: this.childWillLeave,
     }, child);
-  }
+  },
 });
 
 module.exports = VelocityTransitionGroup;

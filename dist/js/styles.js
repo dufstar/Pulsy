@@ -1,8 +1,3 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
 
 var styles = {
   underlay: {
@@ -12,7 +7,7 @@ var styles = {
     left: '0',
     top: '0',
     width: '100vw',
-    height: '100vh'
+    height: '100vh',
   },
   closeTooltip: {
     color: '#333',
@@ -23,8 +18,7 @@ var styles = {
     fontSize: '20px',
     fontFamily: 'sans-serif',
     fontWeight: '300',
-    cursor: 'pointer'
+    cursor: 'pointer',
   }
-};
-exports['default'] = styles;
-module.exports = exports['default'];
+}
+export default styles;

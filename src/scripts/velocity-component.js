@@ -40,7 +40,7 @@ var _ = {
 };
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Velocity = require('./lib/velocity-animate-shim');
+var Velocity = require('./velocity-animate-shim');
 
 var VelocityComponent = React.createClass({
   displayName: 'VelocityComponent',

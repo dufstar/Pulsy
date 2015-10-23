@@ -1,9 +1,7 @@
 // Copyright (c) 2015 Twitter, Inc. and other contributors
 
-'use strict';
-
 var _ = {
-  isObject: require('lodash/lang/isObject')
+  isObject: require('lodash/lang/isObject'),
 };
 var Velocity = require('./lib/velocity-animate-shim');
 
@@ -59,18 +57,18 @@ var effectCounter = 0;
 function registerEffect(suffix, animation) {
   if (_.isObject(suffix)) {
     animation = suffix;
-    suffix = '';
+    suffix = '';    
   }
 
   if (Velocity.RegisterEffect === undefined) {
     throw "Velocity.RegisterEffect not found. You need to require('velocity-animate/velocity.ui') at a top level for UI Pack.";
   }
 
-  var key = 'VelocityHelper.animation.' + effectCounter++ + suffix;
+  var key = 'VelocityHelper.animation.' + (effectCounter++) + suffix;
   Velocity.RegisterEffect(key, animation);
   return key;
 }
 
 module.exports = {
-  registerEffect: registerEffect
+  registerEffect: registerEffect,
 };
