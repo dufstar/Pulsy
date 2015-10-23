@@ -27,9 +27,10 @@ COMPLETED
 - send object in through props
 - get ES6 up and running
 - automatically run gulp babel and watch for changes
+- move all styles into one object
 
 NEXT
-- move all styles into one object
+- fix repositioning on window resize and scroll
 
 
 Tooltip API

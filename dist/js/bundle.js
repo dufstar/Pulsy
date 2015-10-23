@@ -26300,13 +26300,26 @@ var PulsyUnderlay = (function (_React$Component) {
 var PulsyTooltip = (function (_React$Component2) {
   _inherits(PulsyTooltip, _React$Component2);
 
-  function PulsyTooltip() {
+  function PulsyTooltip(props) {
     _classCallCheck(this, PulsyTooltip);
 
-    _get(Object.getPrototypeOf(PulsyTooltip.prototype), 'constructor', this).apply(this, arguments);
+    _get(Object.getPrototypeOf(PulsyTooltip.prototype), 'constructor', this).call(this, props);
+    this.state = {
+      hovering: false
+    };
   }
 
   _createClass(PulsyTooltip, [{
+    key: 'animateOn',
+    value: function animateOn() {
+      this.setState({ hovering: true });
+    }
+  }, {
+    key: 'animateOff',
+    value: function animateOff() {
+      this.setState({ hovering: false });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var po = this.props.pulsyObj,
@@ -26315,29 +26328,55 @@ var PulsyTooltip = (function (_React$Component2) {
           positionFixed = po.positionFixed;
       var style = {
         top: po.dot.fixed ? (coordinates.top + coordinates.bottom) / 2 + offset.top : (coordinates.top + coordinates.bottom) / 2 + window.scrollY + offset.top,
-        left: po.dot.fixed ? (coordinates.left + coordinates.right) / 2 + offset.left : (coordinates.left + coordinates.right) / 2 + window.scrollX + offset.left
+        left: po.dot.fixed ? (coordinates.left + coordinates.right) / 2 + offset.left : (coordinates.left + coordinates.right) / 2 + window.scrollX + offset.left,
+        opacity: 1,
+        transformOrigin: '50% 0'
       };
       for (var key in styles.tooltip.container) {
         style[key] = styles.tooltip.container[key];
       }
-      var fadeMeDown = Velocity(document.getElementById("tool"), { opacity: 0.5 }, { duration: 1000 });
+      var animationProps;
+      if (this.state.hovering) {
+        animationProps = {
+          duration: 200,
+          animation: {
+            rotateY: 70
+          }
+        };
+      } else {
+        animationProps = {
+          duration: 1100, // longer due to swinging
+          animation: {
+            rotateY: [0, 'spring']
+          }
+        };
+      }
       return _react2['default'].createElement(
         'div',
-        { id: 'tool', style: style, onMouseLeave: console.log('yebo') },
+        { onMouseEnter: this.animateOn.bind(this),
+          onMouseLeave: this.animateOff.bind(this) },
         _react2['default'].createElement(
-          'div',
-          null,
-          options.tooltip.content.header
-        ),
-        _react2['default'].createElement(
-          'div',
-          null,
-          options.tooltip.content.note
-        ),
-        _react2['default'].createElement(
-          'div',
-          { style: styles.tooltip.close, onClick: this.props.toggleUnderlay },
-          ' + '
+          _velocityReact.VelocityComponent,
+          animationProps,
+          _react2['default'].createElement(
+            'div',
+            { style: style },
+            _react2['default'].createElement(
+              'div',
+              null,
+              options.tooltip.content.header
+            ),
+            _react2['default'].createElement(
+              'div',
+              null,
+              options.tooltip.content.note
+            ),
+            _react2['default'].createElement(
+              'div',
+              { style: styles.tooltip.close, onClick: this.props.toggleUnderlay },
+              ' + '
+            )
+          )
         )
       );
     }

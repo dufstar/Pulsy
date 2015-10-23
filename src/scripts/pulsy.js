@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import VelocityReact from 'velocity-react'
+import {VelocityComponent, VelocityTransitionGroup} from 'velocity-react';
 
 class PulsyUnderlay extends React.Component {
   render() {
@@ -14,6 +15,18 @@ class PulsyUnderlay extends React.Component {
 }
 
 class PulsyTooltip extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      hovering: false,
+    }
+  }
+  animateOn() {
+    this.setState({hovering: true});
+  }
+  animateOff() {
+    this.setState({hovering: false});
+  }
   render() {
     var po = this.props.pulsyObj,
         coordinates = po.dot.coordinates,
@@ -26,16 +39,38 @@ class PulsyTooltip extends React.Component{
         left: po.dot.fixed ?
           (coordinates.left + coordinates.right)/2 + offset.left :
           (coordinates.left + coordinates.right)/2 + window.scrollX + offset.left,
+        opacity: 1,
+        transformOrigin: '50% 0',
       }
     for (var key in styles.tooltip.container) {
       style[key] = styles.tooltip.container[key];
     }
-    var fadeMeDown = Velocity(document.getElementById("tool"), { opacity: 0.5 }, { duration: 1000 });
+    var animationProps;
+    if (this.state.hovering) {
+      animationProps = {
+        duration: 200,
+        animation: {
+          rotateY: 70
+        }
+      }
+    } else {
+      animationProps = {
+        duration: 1100, // longer due to swinging
+        animation: {
+          rotateY: [0, 'spring']
+        }
+      }
+    }
     return (
-      <div id="tool" style={style} onMouseLeave={console.log('yebo')}>
-        <div>{options.tooltip.content.header}</div>
-        <div>{options.tooltip.content.note}</div>
-        <div style={styles.tooltip.close} onClick={this.props.toggleUnderlay}> + </div>
+      <div onMouseEnter={this.animateOn.bind(this)}
+           onMouseLeave={this.animateOff.bind(this)}>
+        <VelocityComponent {...animationProps}>
+          <div style={style}>
+            <div>{options.tooltip.content.header}</div>
+            <div>{options.tooltip.content.note}</div>
+            <div style={styles.tooltip.close} onClick={this.props.toggleUnderlay}> + </div>
+          </div>
+        </VelocityComponent>
       </div>
     );
   }
